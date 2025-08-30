@@ -14,7 +14,7 @@ global.logger = logger;
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const serverPort = process.env.SERVER_PORT || 9703;
 const serverEnv = process.env.SERVER_ENV === "development";
-const serverAppVersion = process.env.APP_VERSION || "1.0.0";
+const serverAppVersion = process.env.APP_VERSION || "1.0.1";
 const serverAppUrl = process.env.APP_URL || "http://localhost";
 
 //The bootstrap function initializes the server and socket.io
