@@ -12,7 +12,7 @@ import Mode from "./models/mode.model.js";
 
 global.logger = logger;
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const serverPort = process.env.PORT || 6625;
+const serverPort = process.env.SERVER_PORT || 9703;
 const serverEnv = process.env.SERVER_ENV === "development";
 const serverAppVersion = process.env.APP_VERSION || "1.0.0";
 const serverAppUrl = process.env.APP_URL || "http://localhost";
@@ -22,7 +22,7 @@ async function bootstrap() {
   const server = http.createServer(app);
   const io = new Server(server, {
     maxHttpBufferSize: 1e8,
-    cors: { origin: serverEnv ? "*" : "http://localhost:5217/" },
+    cors: { origin: serverEnv ? "*" : "https://meethint.rndkito.com/" },
   });
 
   const mode = await Mode.find({});
