@@ -22,7 +22,7 @@ async function bootstrap() {
   const server = http.createServer(app);
   const io = new Server(server, {
     maxHttpBufferSize: 1e8,
-    cors: { origin: serverEnv ? "*" : "https://meethint.rndkito.com/" },
+    cors: { origin: serverEnv ? "*" : "https://meethint.rndkito.com" },
   });
 
   const mode = await Mode.find({});
