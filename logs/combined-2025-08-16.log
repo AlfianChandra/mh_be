@@ -1,0 +1,5 @@
+[2025-08-16 16:38:48] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-08-16 16:38:48] [INFO]: [Listeners] Loaded 3 file(s)
+[2025-08-16 16:38:48] [INFO]: [BOOTSTRAP] All services ready.
+[2025-08-16 16:38:48] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:6625/
+[2025-08-16 16:38:48] [INFO]: [DB] Connected to the database successfully
