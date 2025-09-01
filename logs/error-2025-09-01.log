@@ -1,0 +1,26 @@
+[2025-09-01 09:11:21] [INFO]: [DB] Connected to the database successfully
+[2025-09-01 09:11:21] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-09-01 09:11:21] [INFO]: [Listeners] Loaded 4 file(s)
+[2025-09-01 09:11:21] [INFO]: [BOOTSTRAP] All services ready.
+[2025-09-01 09:11:21] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
+[2025-09-01 09:21:14] [INFO]: [DB] Connected to the database successfully
+[2025-09-01 09:21:14] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-09-01 09:21:14] [INFO]: [Listeners] Loaded 4 file(s)
+[2025-09-01 09:21:14] [INFO]: [BOOTSTRAP] All services ready.
+[2025-09-01 09:21:14] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
+[2025-09-01 09:22:49] [INFO]: [HINT] client left: lgWBwFhZiZAPnDPuAAAC
+[2025-09-01 09:22:49] [INFO]: [HINT] client left: _NOHXS9QcTsJQZeOAAAE
+[2025-09-01 09:23:21] [INFO]: [HINT] client left: deetrxuK445v7OrUAAAH
+[2025-09-01 09:23:59] [INFO]: [DB] Connected to the database successfully
+[2025-09-01 09:23:59] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-09-01 09:23:59] [INFO]: [Listeners] Loaded 4 file(s)
+[2025-09-01 09:23:59] [INFO]: [BOOTSTRAP] All services ready.
+[2025-09-01 09:23:59] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
+[2025-09-01 09:24:15] [INFO]: [DB] Connected to the database successfully
+[2025-09-01 09:24:15] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-09-01 09:24:15] [INFO]: [Listeners] Loaded 4 file(s)
+[2025-09-01 09:24:15] [INFO]: [BOOTSTRAP] All services ready.
+[2025-09-01 09:24:15] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
+[2025-09-01 09:24:34] [INFO]: [HINT] client left: WXUBnkOsL4jRekPIAAAC
+[2025-09-01 09:25:52] [INFO]: [HINT] client left: L-NWN6O8IHIHQEc_AAAF
+[2025-09-01 09:26:28] [WARN]: [SHUTDOWN] Received SIGINT, closing services...

@@ -8,7 +8,6 @@ const hintControllerBuilder = () => {
     try {
       const { context, context_type, context_image, prompt, hint, title } =
         req.body;
-      console.log(req.body);
       let imagePath = null;
       if (context_image.length > 0 && context_type === "image") {
         imagePath = await fileUploaderInstance.uploadImage(context_image);

@@ -23,7 +23,7 @@ async function bootstrap() {
   const io = new Server(server, {
     maxHttpBufferSize: 1e8,
     cors: {
-      origin: ["https://meethint.rndkito.com"], // tanpa trailing slash
+      origin: ["https://meethint.rndkito.com", "http://localhost:5173"],
       methods: ["GET", "POST"],
       credentials: true,
     },
