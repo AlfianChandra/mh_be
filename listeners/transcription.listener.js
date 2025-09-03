@@ -4,6 +4,7 @@ dotenv.config({ silent: true });
 import Mode from "../models/mode.model.js";
 import registry from "../utils/serviceregistry.utils.js";
 import WebSocket from "ws";
+import { useSocketAuth } from "../middlewares/authverifier.socket.middleware.js";
 
 // =======================
 // State & Config
@@ -275,6 +276,7 @@ function appendPcm16(socketId, pcm16Buffer) {
 // Socket.IO listener
 // =======================
 registry.waitFor("transcriptionns", { timeoutMs: 5000 }).then((io) => {
+  io.use(useSocketAuth);
   io.on("connection", async (socket) => {
     console.log(`[TRANSCRIPTION] client connected: ${socket.id}`);
     audioStates.set(socket.id, { socket, ready: false });

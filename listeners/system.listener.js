@@ -1,9 +1,12 @@
 import emitter from "../utils/eventBus.js";
 import registry from "../utils/serviceregistry.utils.js";
+import { useSocketAuth } from "../middlewares/authverifier.socket.middleware.js";
+
 let registeredEvents = [];
 registry
   .waitFor("systemns", { timeoutMs: 1000 })
   .then((io) => {
+    io.use(useSocketAuth);
     io.on("connection", async (socket) => {
       logger.info(`[SYSTEM] client connected: ${socket.id}`);
       let openai = await getOpenAIInstance();
