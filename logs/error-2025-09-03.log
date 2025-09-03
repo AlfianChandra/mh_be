@@ -120,3 +120,8 @@
 [2025-09-03 10:18:43] [INFO]: [Listeners] Loaded 4 file(s)
 [2025-09-03 10:18:43] [INFO]: [BOOTSTRAP] All services ready.
 [2025-09-03 10:18:43] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
+[2025-09-03 10:19:05] [INFO]: [DB] Connected to the database successfully
+[2025-09-03 10:19:05] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-09-03 10:19:05] [INFO]: [Listeners] Loaded 4 file(s)
+[2025-09-03 10:19:05] [INFO]: [BOOTSTRAP] All services ready.
+[2025-09-03 10:19:05] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
