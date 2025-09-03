@@ -292,3 +292,13 @@
 [2025-09-03 11:26:07] [INFO]: [HINT] client left: abOwFTrMItRfBzA4AAAD
 [2025-09-03 11:26:07] [INFO]: [HINT] client left: nRBgnRdnCthiNjHsAAAF
 [2025-09-03 11:26:08] [WARN]: [REQVERIFY - ::1] Unauthorized - Invalid token
+[2025-09-03 11:26:27] [INFO]: [DB] Connected to the database successfully
+[2025-09-03 11:26:28] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-09-03 11:26:28] [INFO]: [Listeners] Loaded 4 file(s)
+[2025-09-03 11:26:28] [INFO]: [BOOTSTRAP] All services ready.
+[2025-09-03 11:26:28] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
+[2025-09-03 11:26:32] [WARN]: [REQVERIFY - ::1] Unauthorized - Invalid token
+[2025-09-03 11:26:33] [WARN]: [REQVERIFY - ::1] Unauthorized - Invalid token
+[2025-09-03 11:26:49] [WARN]: [REQVERIFY - ::1] Unauthorized - Invalid token
+[2025-09-03 11:27:22] [INFO]: [HINT] client left: cl142MIF44Aymaz3AAAL
+[2025-09-03 11:27:33] [INFO]: [HINT] client left: EBSD8SA9L-IngKKRAAAO
