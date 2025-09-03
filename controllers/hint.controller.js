@@ -6,8 +6,15 @@ import HintStructure from "../models/hintstructure.model.js";
 const hintControllerBuilder = () => {
   const saveHint = async (req, res) => {
     try {
-      const { context, context_type, context_image, prompt, hint, title } =
-        req.body;
+      const {
+        context,
+        context_type,
+        context_image,
+        prompt,
+        hint,
+        title,
+        id_meeting,
+      } = req.body;
       let imagePath = null;
       if (context_image.length > 0 && context_type === "image") {
         imagePath = await fileUploaderInstance.uploadImage(context_image);
@@ -32,6 +39,7 @@ const hintControllerBuilder = () => {
         prompt: prompt,
         hint: hint,
         title: title,
+        id_meeting,
       });
 
       await newHint.save();
@@ -44,11 +52,12 @@ const hintControllerBuilder = () => {
 
   const getHints = async (req, res) => {
     try {
+      const { id_meeting } = req.body;
       //Get and sort DESCENDINGLY
-      const hints = await Hint.find().sort({ createdAt: -1 });
+      const hints = await Hint.find({ id_meeting }).sort({ createdAt: -1 });
       return res.status(200).json({ payload: hints });
     } catch (err) {
-      return res.status(500).json({ error: "Internal Server Error" });
+      return res.status(500).json({ error: "Internal Server Error: " + err });
     }
   };
 

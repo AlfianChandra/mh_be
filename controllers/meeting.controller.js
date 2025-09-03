@@ -1,0 +1,94 @@
+import Meeting from "../models/meeting.model.js";
+
+const meetingBuilder = () => {
+  const createMeeting = async (req, res) => {
+    try {
+      const { title } = req.body;
+      const id_user = req.user.id_user;
+      const newMeeting = new Meeting({
+        title,
+        id_user,
+        is_active: true,
+      });
+
+      //set other is_active to false
+      await Meeting.updateMany(
+        { id_user, is_active: true },
+        { is_active: false }
+      );
+
+      await newMeeting.save();
+      res
+        .status(201)
+        .json({ message: "Meeting created successfully", meeting: newMeeting });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
+  const getMeeting = async (req, res) => {
+    try {
+      //Order by
+      const meetings = await Meeting.find({ id_user: req.user.id_user }).sort({
+        createdAt: -1,
+      });
+      return res.status(200).json({ message: "ok", meeting: meetings });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
+  const updateMeetingContent = async (req, res) => {
+    try {
+      const { id, raw, block } = req.body;
+      const id_user = req.user.id_user;
+
+      const updatedMeeting = await Meeting.findOneAndUpdate(
+        { _id: id, id_user },
+        { raw, block },
+        { new: true }
+      );
+
+      if (!updatedMeeting) {
+        return res.status(404).json({ error: "Meeting not found" });
+      }
+
+      res.status(200).json({
+        message: "Meeting updated successfully",
+      });
+    } catch (er) {
+      console.error(er);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
+  const setActiveMeeting = async (req, res) => {
+    try {
+      const { id } = req.body;
+      const id_user = req.user.id_user;
+
+      await Meeting.updateMany(
+        { id_user, is_active: true },
+        { is_active: false }
+      );
+
+      await Meeting.findByIdAndUpdate(id, { is_active: true });
+
+      res.status(200).json({ message: "Meeting set to active successfully" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
+  return {
+    createMeeting,
+    getMeeting,
+    updateMeetingContent,
+    setActiveMeeting,
+  };
+};
+
+export default meetingBuilder;

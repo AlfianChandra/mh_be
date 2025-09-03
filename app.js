@@ -20,6 +20,8 @@ import userRoutes from "./routes/user.routes.js";
 import tryoutRoutes from "./routes/tryout.routes.js";
 import questionRoutes from "./routes/question.routes.js";
 
+//Meeting routes
+import meetingRoutes from "./routes/meeting.routes.js";
 dotenv.config({
   silent: true,
 });
@@ -70,3 +72,5 @@ app.use(
   verifyRole().adminOnly,
   questionRoutes
 ); //Questions
+
+app.use("/api/v1/", globalLimiter, verifyRequest, meetingRoutes); //Meetings

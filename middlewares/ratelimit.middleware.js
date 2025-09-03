@@ -8,6 +8,7 @@ const maxRequest = {
   register: 5,
   login: 10,
 };
+
 const maxTime = {
   global: 10,
   register: 30,
@@ -18,7 +19,7 @@ const maxTime = {
 const createLimiter = (name, max, windowMinutes, message) =>
   rateLimit({
     windowMs: windowMinutes * 60 * 1000,
-    max: devEnv ? max : 99999,
+    max: devEnv ? 99999 : max,
     standardHeaders: true,
     legacyHeaders: false,
     message: { status: 429, message },

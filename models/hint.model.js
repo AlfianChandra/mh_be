@@ -35,6 +35,11 @@ const hintSchema = mongoose.Schema({
     required: false,
     default: "",
   },
+  id_meeting: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Meeting",
+  },
 });
 
 export const Hint = mongoose.model("Hint", hintSchema);
