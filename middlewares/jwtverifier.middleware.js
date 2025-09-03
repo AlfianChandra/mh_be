@@ -7,6 +7,7 @@ const allowedOrigins = [
   "http://localhost:6625",
   "PostmanRuntime",
   "https://meethint.rndkito.com/",
+  "https://meethint.rndkito.com",
 ];
 
 export const verifyRequest = (req, res, next) => {

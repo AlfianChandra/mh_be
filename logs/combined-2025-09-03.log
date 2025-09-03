@@ -126,3 +126,52 @@
 [2025-09-03 10:19:05] [INFO]: [BOOTSTRAP] All services ready.
 [2025-09-03 10:19:05] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
 [2025-09-03 10:23:25] [WARN]: [SHUTDOWN] Received SIGINT, closing services...
+[2025-09-03 10:33:29] [INFO]: [DB] Connected to the database successfully
+[2025-09-03 10:33:29] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-09-03 10:33:29] [INFO]: [Listeners] Loaded 4 file(s)
+[2025-09-03 10:33:29] [INFO]: [BOOTSTRAP] All services ready.
+[2025-09-03 10:33:29] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
+[2025-09-03 10:35:38] [INFO]: [HINT] client left: Y9pRQ1XdhopftOOYAAAC
+[2025-09-03 10:35:56] [INFO]: [HINT] client left: Eyptg-jdAvVkf7PnAAAF
+[2025-09-03 10:38:37] [INFO]: [HINT] client left: 4mgJCV7ATAI1XMX4AAAI
+[2025-09-03 10:40:55] [INFO]: [HINT] client left: fYNmPYZByOm7NtrvAAAL
+[2025-09-03 10:40:55] [INFO]: [HINT] client left: i8ZTOF0lCzz-C-dFAAAN
+[2025-09-03 10:41:28] [INFO]: [HINT] client left: uxKv9TppKmc_7s74AAAQ
+[2025-09-03 10:41:28] [INFO]: [HINT] client left: Nfem6tvCEwgi4qvlAAAW
+[2025-09-03 10:41:28] [INFO]: [HINT] client left: x18m6Z_UH-yx2a6cAAAU
+[2025-09-03 10:41:28] [INFO]: [HINT] client left: gFmOdWn2WV03DF77AAAS
+[2025-09-03 10:41:36] [INFO]: [HINT] client left: fguMfx1hxH65PlqTAAAZ
+[2025-09-03 10:42:13] [INFO]: [HINT] client left: sZCSq7cYqbH4FshTAAAc
+[2025-09-03 10:42:13] [INFO]: [HINT] client left: tA1pCdx81kCLMTm3AAAe
+[2025-09-03 10:43:13] [INFO]: [HINT] client left: bHk9aXIGSp8OCQDDAAAh
+[2025-09-03 10:44:35] [INFO]: [HINT] client left: dquKWYpL1WpsZ126AAAk
+[2025-09-03 10:44:35] [INFO]: [HINT] client left: XwA5FggStNGGt2MGAAAw
+[2025-09-03 10:44:35] [INFO]: [HINT] client left: jDdSR90DPyiHUm_FAAAu
+[2025-09-03 10:44:35] [INFO]: [HINT] client left: zPsN-fgv_r2AgaH7AAAs
+[2025-09-03 10:44:35] [INFO]: [HINT] client left: JMeR_J5XEYMUDaPWAAAq
+[2025-09-03 10:44:35] [INFO]: [HINT] client left: 7hKcOkXaOy3VjyjSAAAo
+[2025-09-03 10:44:35] [INFO]: [HINT] client left: zAQ8QOke7ZAsEwtoAAAm
+[2025-09-03 10:45:30] [INFO]: [HINT] client left: EUU9t_dCn3YURpydAAAz
+[2025-09-03 10:45:30] [INFO]: [HINT] client left: KUQS-9_QTd1mN2nnAAA9
+[2025-09-03 10:45:30] [INFO]: [HINT] client left: 9CfTlTUaNdmP9FdYAAA7
+[2025-09-03 10:45:30] [INFO]: [HINT] client left: 4-VPm5_EJEkPvLlQAAA5
+[2025-09-03 10:45:30] [INFO]: [HINT] client left: UEBbeuyNniu2HmsZAAA3
+[2025-09-03 10:45:30] [INFO]: [HINT] client left: GCVVpAPWGqqE3iRhAAA1
+[2025-09-03 10:45:43] [INFO]: [HINT] client left: TZPYHxvmUdbphRbHAABA
+[2025-09-03 10:45:47] [INFO]: [HINT] client left: NEg-WRB3ZpedC3dFAABD
+[2025-09-03 10:48:58] [INFO]: [HINT] client left: LDrQINaboZnTV9ioAABG
+[2025-09-03 10:48:58] [INFO]: [HINT] client left: TGao4Sj_8f-s1u1IAABQ
+[2025-09-03 10:48:58] [INFO]: [HINT] client left: JJFDOukTVnY1kYM2AABO
+[2025-09-03 10:48:58] [INFO]: [HINT] client left: gFhYeNbYjha2ZYfPAABM
+[2025-09-03 10:48:58] [INFO]: [HINT] client left: AXNItCSCERJVdqOYAABK
+[2025-09-03 10:48:58] [INFO]: [HINT] client left: Os8ETnXG2YfCLcW9AABI
+[2025-09-03 10:56:21] [WARN]: [REQVERIFY - ::1] Forbidden - Blocked user origin: https://meethint.rndkito.com
+[2025-09-03 10:56:25] [WARN]: [REQVERIFY - ::1] Forbidden - Blocked user origin: https://meethint.rndkito.com
+[2025-09-03 10:56:30] [INFO]: [HINT] client left: b-IG1oWe4nHtbj_LAABW
+[2025-09-03 10:56:34] [WARN]: [REQVERIFY - ::1] Forbidden - Blocked user origin: https://meethint.rndkito.com
+[2025-09-03 10:57:27] [INFO]: [HINT] client left: JhEllSUd4JWUbCFbAABZ
+[2025-09-03 10:58:36] [INFO]: [DB] Connected to the database successfully
+[2025-09-03 10:58:36] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-09-03 10:58:36] [INFO]: [Listeners] Loaded 4 file(s)
+[2025-09-03 10:58:36] [INFO]: [BOOTSTRAP] All services ready.
+[2025-09-03 10:58:36] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
