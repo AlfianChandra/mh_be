@@ -302,3 +302,9 @@
 [2025-09-03 11:26:49] [WARN]: [REQVERIFY - ::1] Unauthorized - Invalid token
 [2025-09-03 11:27:22] [INFO]: [HINT] client left: cl142MIF44Aymaz3AAAL
 [2025-09-03 11:27:33] [INFO]: [HINT] client left: EBSD8SA9L-IngKKRAAAO
+[2025-09-03 11:29:51] [INFO]: [HINT] client left: mQEDQu3xqpRrFxMXAAAR
+[2025-09-03 11:35:58] [INFO]: [DB] Connected to the database successfully
+[2025-09-03 11:35:58] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-09-03 11:35:58] [INFO]: [Listeners] Loaded 4 file(s)
+[2025-09-03 11:35:58] [INFO]: [BOOTSTRAP] All services ready.
+[2025-09-03 11:35:58] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
