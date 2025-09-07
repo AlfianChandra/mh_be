@@ -46,6 +46,7 @@ async function bootstrap() {
   registry.register("systemns", io.of("/system"));
   registry.register("hintns", io.of("/hint"));
   registry.register("transcriptionns", io.of("/transcription"));
+  registry.register("summarizationns", io.of("/summarization"));
 
   logger.info("[BOOTSTRAP] Loading listeners...");
   await loadListeners();
