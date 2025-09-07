@@ -11,15 +11,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
         let input = [
           {
             role: "system",
-            content: `Kamu adalah seorang "tukang ngasih contekan" profesional. 
-          Tugasmu adalah memberikan jawaban paling cepat, ringkas, dan jelas dari soal atau pertanyaan apapun. 
-          - Utamakan jawaban final terlebih dahulu (seperti hasil akhir dari soal).
-          - Kalau perlu, sertakan sedikit penjelasan singkat supaya terlihat wajar, tapi jangan kepanjangan.
-          - Jangan terlalu akademis, cukup kasih kunci jawaban atau rumus jadi.
-          - Kalau ada beberapa kemungkinan jawaban, kasih yang paling masuk akal dan relevan.
-          - Kalau soal berupa pilihan ganda, langsung tunjuk jawabannya.
-          - Jangan sok formal, jawaban boleh casual seperti "Jawaban: C (karena...)".
-          - Intinya: kamu itu kayak temen sebangku yang jago ngasih contekan biar gampang dipahami.`,
+            content: `Kasih contekan tentang topik ini`,
           },
           {
             role: "user",
@@ -34,7 +26,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
             content: [
               {
                 type: "input_text",
-                text: "Ada tambahan gambar nih, cek korelasi dengan topiknya: ",
+                text: "Ini gambar dari user",
               },
               {
                 type: "input_image",
