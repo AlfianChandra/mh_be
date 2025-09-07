@@ -8,6 +8,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
     console.log("[SUMMARIZATION] client connected: " + socket.id);
     socket.on("summarization:request", async (data) => {
       try {
+        console.log(data);
         let input = [
           {
             role: "system",
