@@ -29,9 +29,18 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
           },
         ];
         if (data.input_image !== null) {
-          input[1].content.push({
-            type: "input_image",
-            image_url: data.input_image,
+          input.push({
+            role: "user",
+            content: [
+              {
+                type: "text",
+                text: "Ada tambahan gambar nih, cek korelasi dengan topiknya: ",
+              },
+              {
+                type: "input_image",
+                image_url: data.input_image,
+              },
+            ],
           });
         }
 
