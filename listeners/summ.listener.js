@@ -48,10 +48,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
           }
 
           if (res.type === "response.completed") {
-            socket.emit(
-              "summarization:response-complete",
-              res.output[0].content[0].text
-            );
+            socket.emit("summarization:response-complete");
           }
         }
       } catch (err) {
