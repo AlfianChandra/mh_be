@@ -37,6 +37,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
         const response = await openai.responses.create({
           model: data.setting.model,
           input: input,
+          stream: true,
         });
 
         for await (const res of response) {
