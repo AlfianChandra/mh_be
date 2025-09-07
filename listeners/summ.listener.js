@@ -33,7 +33,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
             role: "user",
             content: [
               {
-                type: "text",
+                type: "input_text",
                 text: "Ada tambahan gambar nih, cek korelasi dengan topiknya: ",
               },
               {
