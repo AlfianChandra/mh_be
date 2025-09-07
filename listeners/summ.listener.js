@@ -5,7 +5,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
   io.use(useSocketAuth);
   io.on("connection", async (socket) => {
     let openai = await getOpenAIInstance();
-
+    console.log("[SUMMARIZATION] client connected: " + socket.id);
     socket.on("summarization:request", async (data) => {
       let input = [
         {
