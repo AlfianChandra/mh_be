@@ -11,7 +11,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
         let input = [
           {
             role: "system",
-            content: `Kasih contekan tentang topik ini`,
+            content: `Kasih contekan tentang topik yang diberikan user. Buat dalam bentuk poin-poin`,
           },
           {
             role: "user",
