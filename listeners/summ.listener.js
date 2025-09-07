@@ -8,7 +8,6 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
     console.log("[SUMMARIZATION] client connected: " + socket.id);
     socket.on("summarization:request", async (data) => {
       try {
-        console.log(data);
         let input = [
           {
             role: "system",
@@ -36,6 +35,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
           });
         }
 
+        console.log(input);
         const response = await openai.responses.create({
           model: data.setting.model,
           input: input,
