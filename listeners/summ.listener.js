@@ -24,7 +24,9 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
           },
           {
             role: "user",
-            content: [{ type: "input_text", text: data.input_text }],
+            content: [
+              { type: "input_text", text: "Ini topiknya: " + data.input_text },
+            ],
           },
         ];
         if (data.input_image !== null) {
