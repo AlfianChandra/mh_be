@@ -90,8 +90,8 @@ const meetingBuilder = () => {
       if (!meeting) {
         return res.status(404).json({ error: "Meeting not found" });
       }
-      const deleteHints = await Hint.deleteMany({ id_meeting: id });
-      const deleteMeeting = await Meeting.findByIdAndDelete(id);
+      await Hint.deleteMany({ id_meeting: id });
+      await Meeting.findByIdAndDelete(id);
       res
         .status(200)
         .json({ message: "Meeting and associated hints deleted successfully" });
