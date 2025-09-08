@@ -38,7 +38,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
             content: [
               {
                 type: "input_text",
-                text: "Ini gambar dari user",
+                text: "Ini gambar dari user terkait fokus konteksnya",
               },
               {
                 type: "input_image",
