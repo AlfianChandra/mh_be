@@ -24,7 +24,7 @@ const hintControllerBuilder = () => {
         {
           role: "system",
           content:
-            "Kamu adalah asisten AI yang ditugaskan untuk membuat judul dari sebuah diskusi. Hasilkan judul dari inti pembahasan yang penting. Buat kedalam bentuk 1 paragraf yang sangat singkat saja",
+            "Kamu adalah asisten AI yang ditugaskan untuk membuat judul dari sebuah diskusi. Hasilkan judul dari inti pembahasan yang penting. Buat kedalam bentuk 1 paragraf yang hanya terdiri dari 5-7 kata",
         },
         {
           role: "user",
