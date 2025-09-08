@@ -17,8 +17,6 @@ import hintRoutes from "./routes/hint.routes.js";
 
 //Routes panel
 import userRoutes from "./routes/user.routes.js";
-import tryoutRoutes from "./routes/tryout.routes.js";
-import questionRoutes from "./routes/question.routes.js";
 
 //Meeting routes
 import meetingRoutes from "./routes/meeting.routes.js";
@@ -56,21 +54,5 @@ app.use(
   verifyRole().adminOnly,
   userRoutes
 ); //Users
-
-app.use(
-  "/api/v1/cpanel",
-  globalLimiter,
-  verifyRequest,
-  verifyRole().adminOnly,
-  tryoutRoutes
-); //Tryouts
-
-app.use(
-  "/api/v1/cpanel",
-  globalLimiter,
-  verifyRequest,
-  verifyRole().adminOnly,
-  questionRoutes
-); //Questions
 
 app.use("/api/v1/", globalLimiter, verifyRequest, meetingRoutes); //Meetings
