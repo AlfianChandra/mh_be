@@ -1,5 +1,5 @@
 import Meeting from "../models/meeting.model.js";
-
+import Hint from "../models/hint.model.js";
 const meetingBuilder = () => {
   const createMeeting = async (req, res) => {
     try {
