@@ -58,7 +58,7 @@ const hintControllerBuilder = () => {
         .sort({
           createdAt: -1,
         })
-        .select("-hint");
+        .select("-hint -createdAt -id_meeting");
       return res.status(200).json({ payload: hints });
     } catch (err) {
       return res.status(500).json({ error: "Internal Server Error: " + err });
