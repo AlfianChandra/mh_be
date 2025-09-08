@@ -83,6 +83,16 @@ const meetingBuilder = () => {
     }
   };
 
+  const deleteMeeting = async (req, res) => { 
+    try {
+      const { id } = req.body;
+      const meeting = await Meeting.findByIdAndDelete(id);
+    } catch (err) { 
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
   return {
     createMeeting,
     getMeeting,
