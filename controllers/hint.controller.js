@@ -55,7 +55,7 @@ const hintControllerBuilder = () => {
       const { id_meeting } = req.body;
       //Get and sort DESCENDINGLY
       const hints = await Hint.find({ id_meeting }).select(
-        "-hint -createdAt -id_meeting"
+        "-createdAt -id_meeting"
       );
       return res.status(200).json({ payload: hints });
     } catch (err) {
