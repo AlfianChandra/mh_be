@@ -83,21 +83,30 @@ const meetingBuilder = () => {
     }
   };
 
-  const deleteMeeting = async (req, res) => { 
+  const deleteMeeting = async (req, res) => {
     try {
       const { id } = req.body;
       const meeting = await Meeting.findByIdAndDelete(id);
-    } catch (err) { 
+      if (!meeting) {
+        return res.status(404).json({ error: "Meeting not found" });
+      }
+      const deleteHints = await Hint.deleteMany({ id_meeting: id });
+      const deleteMeeting = await Meeting.findByIdAndDelete(id);
+      res
+        .status(200)
+        .json({ message: "Meeting and associated hints deleted successfully" });
+    } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Internal server error" });
     }
-  }
+  };
 
   return {
     createMeeting,
     getMeeting,
     updateMeetingContent,
     setActiveMeeting,
+    deleteMeeting,
   };
 };
 
