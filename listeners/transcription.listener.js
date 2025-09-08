@@ -206,6 +206,7 @@ async function getOrCreateWs(socketId) {
     const state = audioStates.get(socketId);
     const socket = state?.socket;
 
+    console.log(raw);
     if (data.type === "conversation.item.input_audio_transcription.delta") {
       activeSocket?.emit?.(targetSocket[targetResponse].delta, data.delta);
     } else if (
