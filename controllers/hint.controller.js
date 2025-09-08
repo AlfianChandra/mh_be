@@ -56,7 +56,6 @@ const hintControllerBuilder = () => {
       //Get and sort DESCENDINGLY
       const hints = await Hint.find({ id_meeting }).sort({
         is_active: -1,
-        createdAt: -1,
       });
       return res.status(200).json({ payload: hints });
     } catch (err) {
