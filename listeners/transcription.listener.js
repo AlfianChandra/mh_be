@@ -275,16 +275,20 @@ function appendPcm16(socketId, pcm16Buffer) {
 // =======================
 function normalizeToBuffer(data) {
   if (data instanceof ArrayBuffer) {
+    // offset 0 (aman)
     return Buffer.from(new Uint8Array(data));
   }
   if (ArrayBuffer.isView(data)) {
-    return Buffer.from(data.buffer, data.byteOffset, data.byteLength);
+    // bisa offset ganjil => force copy kalau perlu
+    const b = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
+    return b.byteOffset % 2 === 0 ? b : Buffer.from(b);
   }
   if (Buffer.isBuffer(data)) {
-    return data;
+    // kalau offset internal ganjil, copy ke buffer baru
+    return data.byteOffset % 2 === 0 ? data : Buffer.from(data);
   }
   if (typeof data === "string") {
-    // base64
+    // base64 → always baru (offset 0)
     return Buffer.from(data, "base64");
   }
   return null;

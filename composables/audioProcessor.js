@@ -137,15 +137,33 @@ export function createAudioProcessor(opts) {
     if (!Buffer.isBuffer(buf)) {
       throw new Error("pushRawPCM16 butuh Buffer.");
     }
-    if (buf.length % 2 !== 0) return; // safety
-    const i16 = new Int16Array(buf.buffer, buf.byteOffset, buf.byteLength / 2);
-    // Int16 -> Float32, mixdown kalau stereo
-    let f32 = int16ToFloat32(i16);
+
+    // Pastikan panjang genap (drop 1 byte terakhir jika ganjil)
+    if ((buf.length & 1) === 1) {
+      buf = buf.subarray(0, buf.length - 1);
+    }
+    if (buf.length === 0) return;
+
+    let f32;
+    const aligned = buf.byteOffset % 2 === 0 && buf.byteLength % 2 === 0;
+
+    if (aligned) {
+      // Fast path: langsung pakai Int16Array view
+      const i16 = new Int16Array(
+        buf.buffer,
+        buf.byteOffset,
+        buf.byteLength / 2
+      );
+      f32 = int16ToFloat32(i16);
+    } else {
+      // Slow but safe: baca per 2 byte (hindari RangeError)
+      f32 = bufferPCM16ToFloat32(buf);
+    }
+
     if (channels > 1) f32 = mixdownToMono(f32, channels);
-    // resample kalau perlu
-    const r = sampleRate;
-    if (r !== cfg.targetSampleRate) {
-      f32 = resampleLinear(f32, r, cfg.targetSampleRate);
+
+    if (sampleRate !== cfg.targetSampleRate) {
+      f32 = resampleLinear(f32, sampleRate, cfg.targetSampleRate);
     }
     _appendOutFloat32(f32);
   }
@@ -251,6 +269,16 @@ export function createAudioProcessor(opts) {
 }
 
 /* ====================== Helpers ====================== */
+
+function bufferPCM16ToFloat32(buf) {
+  const len = buf.length & ~1; // genapkan
+  const out = new Float32Array(len / 2);
+  for (let i = 0, j = 0; i < len; i += 2, j++) {
+    const v = buf.readInt16LE(i);
+    out[j] = Math.max(-1, Math.min(1, v / 32768));
+  }
+  return out;
+}
 
 function int16ToFloat32(i16) {
   const out = new Float32Array(i16.length);
