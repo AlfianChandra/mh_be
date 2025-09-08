@@ -16,7 +16,10 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
           {
             role: "user",
             content: [
-              { type: "input_text", text: "Ini topiknya: " + data.input_text },
+              {
+                type: "input_text",
+                text: "Ini keseluruhan diskusinya: " + data.input_text,
+              },
             ],
           },
           {
