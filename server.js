@@ -22,6 +22,7 @@ async function bootstrap() {
   const server = http.createServer(app);
   const io = new Server(server, {
     maxHttpBufferSize: 1e8,
+    pingTimeout:60000,
     cors: {
       origin: ["https://meethint.rndkito.com", "http://localhost:5173"],
       methods: ["GET", "POST"],
