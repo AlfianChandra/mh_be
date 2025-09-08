@@ -262,6 +262,7 @@ function appendPcm16(socketId, pcm16Buffer) {
   const b64 = Buffer.from(pcm16Buffer).toString("base64");
   if (!b64 || b64.length === 0) return;
 
+  console.log(b64);
   ws.send(
     JSON.stringify({
       type: "input_audio_buffer.append",
