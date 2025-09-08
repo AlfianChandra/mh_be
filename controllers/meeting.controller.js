@@ -31,7 +31,7 @@ const meetingBuilder = () => {
     try {
       //Order by
       const meetings = await Meeting.find({ id_user: req.user.id_user }).sort({
-        createdAt: -1,
+        is_active: -1,
       });
       return res.status(200).json({ message: "ok", meeting: meetings });
     } catch (err) {
