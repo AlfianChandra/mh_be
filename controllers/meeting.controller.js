@@ -86,7 +86,7 @@ const meetingBuilder = () => {
   const deleteMeeting = async (req, res) => {
     try {
       const { id } = req.body;
-      const meeting = await Meeting.findByIdAndDelete(id);
+      const meeting = await Meeting.findById(id);
       if (!meeting) {
         return res.status(404).json({ error: "Meeting not found" });
       }
