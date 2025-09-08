@@ -6,6 +6,9 @@ import registry from "../utils/serviceregistry.utils.js";
 import WebSocket from "ws";
 import { useSocketAuth } from "../middlewares/authverifier.socket.middleware.js";
 
+// ⬇️ NEW: composable audio
+import { createAudioProcessor } from "../composables/audioProcessor.js";
+
 // =======================
 // State & Config
 // =======================
@@ -65,7 +68,6 @@ function clearPing(socketId) {
 // Utils: reconnect logic
 // =======================
 function scheduleReconnect(socketId) {
-  // Kalau client (Socket.IO) sudah putus, gak perlu reconnect
   if (!audioStates.has(socketId)) return;
 
   const attempt = (reconnectAttempts.get(socketId) || 0) + 1;
@@ -81,13 +83,12 @@ function scheduleReconnect(socketId) {
       console.log(
         `[OpenAI WS] reconnect attempt ${attempt} for ${socketId}...`
       );
-      await getOrCreateWs(socketId); // tunggu sampai 'open'
+      await getOrCreateWs(socketId);
       reconnectAttempts.set(socketId, 0);
       flushAudioQueue(socketId);
       const st = audioStates.get(socketId);
       st?.socket?.emit?.("tcript:status", { status: "reconnected" });
     } catch (e) {
-      // coba lagi
       scheduleReconnect(socketId);
     }
   }, delay);
@@ -149,6 +150,7 @@ function flushAudioQueue(socketId) {
 async function getOrCreateWs(socketId) {
   let ws = wsMap.get(socketId);
   if (ws && ws.readyState === WebSocket.OPEN) return ws;
+
   const mode = await Mode.find({});
   const OPENAI_API_KEY =
     mode.length > 0
@@ -156,6 +158,7 @@ async function getOrCreateWs(socketId) {
         ? process.env.OPENAI_API_KEY_MODE_DEV
         : process.env.OPENAI_API_KEY_MODE_PROD
       : process.env.OPENAI_API_KEY_MODE_DEV;
+
   ws = new WebSocket(openAiUrl, {
     headers: {
       Authorization: `Bearer ${OPENAI_API_KEY}`,
@@ -167,21 +170,23 @@ async function getOrCreateWs(socketId) {
 
   // --- OPEN ---
   ws.on("open", () => {
+    // ⬇️ aktifkan ping
+    schedulePing(ws, socketId);
+
     const sessionConfig = {
       type: "session.update",
       session: {
         modalities: ["text"],
         instructions:
           "Transkripsi verbatim ke bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke bahasa indonesia",
-        input_audio_format: "pcm16",
+        input_audio_format: "pcm16", // output processor: PCM16 mono 24k
 
-        // rekomendasi model STT
         input_audio_transcription: {
           model: "gpt-4o-mini-transcribe",
-          language: "id", // biar langsung diarahkan ke bahasa Indonesia
+          language: "id",
         },
 
-        // Voice Activity Detection
+        // VAD server: auto segment; no response creation
         turn_detection: {
           type: "server_vad",
           threshold: 0.8,
@@ -201,9 +206,6 @@ async function getOrCreateWs(socketId) {
     const state = audioStates.get(socketId);
     const socket = state?.socket;
 
-    // Debug tipe event:
-    // console.log('[OpenAI WS]', data.type);
-
     if (data.type === "conversation.item.input_audio_transcription.delta") {
       activeSocket?.emit?.(targetSocket[targetResponse].delta, data.delta);
     } else if (
@@ -215,14 +217,12 @@ async function getOrCreateWs(socketId) {
       );
     } else if (data.type === "error") {
       console.error("[OpenAI WS] error event payload:", data);
-      // biarkan close yang memicu reconnect kalau fatal
     }
   });
 
   // --- ERROR ---
   ws.on("error", (err) => {
     console.error(`[OpenAI WS] error for ${socketId}:`, err);
-    // beberapa error tidak menutup socket; 'close' yang akan trigger reconnect
   });
 
   // --- CLOSE ---
@@ -233,7 +233,7 @@ async function getOrCreateWs(socketId) {
     scheduleReconnect(socketId);
   });
 
-  // Tunggu siap (sukses open atau error)
+  // Tunggu siap
   await new Promise((resolve, reject) => {
     const t = setTimeout(() => reject(new Error("WS connect timeout")), 10_000);
     ws.once("open", () => {
@@ -254,8 +254,6 @@ async function getOrCreateWs(socketId) {
 // =======================
 function appendPcm16(socketId, pcm16Buffer) {
   const ws = wsMap.get(socketId);
-
-  // Jika belum OPEN, antrekan & biar auto flush saat terkoneksi
   if (!ws || ws.readyState !== WebSocket.OPEN) {
     enqueueAudio(socketId, Buffer.from(pcm16Buffer));
     return;
@@ -273,6 +271,26 @@ function appendPcm16(socketId, pcm16Buffer) {
 }
 
 // =======================
+// Helpers
+// =======================
+function normalizeToBuffer(data) {
+  if (data instanceof ArrayBuffer) {
+    return Buffer.from(new Uint8Array(data));
+  }
+  if (ArrayBuffer.isView(data)) {
+    return Buffer.from(data.buffer, data.byteOffset, data.byteLength);
+  }
+  if (Buffer.isBuffer(data)) {
+    return data;
+  }
+  if (typeof data === "string") {
+    // base64
+    return Buffer.from(data, "base64");
+  }
+  return null;
+}
+
+// =======================
 // Socket.IO listener
 // =======================
 registry.waitFor("transcriptionns", { timeoutMs: 5000 }).then((io) => {
@@ -281,6 +299,37 @@ registry.waitFor("transcriptionns", { timeoutMs: 5000 }).then((io) => {
     console.log(`[TRANSCRIPTION] client connected: ${socket.id}`);
     audioStates.set(socket.id, { socket, ready: false });
     initAudioQueue(socket.id);
+
+    // default meta (boleh dioverride lewat tcript:meta)
+    let sysRate = 48000;
+    let sysCh = 2; // system/share audio umumnya 48k stereo
+    let micRate = 48000;
+    let micCh = 1; // mic umumnya 48k mono
+
+    // ⬇️ NEW: buat 2 processor (system & mic)
+    const sysProcessor = createAudioProcessor({
+      targetSampleRate: 24000,
+      targetChannels: 1,
+      frameMs: 20,
+      bundleFrames: 5, // 100ms/chunk
+      agc: { enabled: false }, // system audio: no AGC
+      onChunk: (buf) => appendPcm16(socket.id, buf),
+    });
+
+    const micProcessor = createAudioProcessor({
+      targetSampleRate: 24000,
+      targetChannels: 1,
+      frameMs: 20,
+      bundleFrames: 5,
+      agc: {
+        enabled: true,
+        targetRms: 0.12,
+        maxGain: 5.0,
+        attack: 0.08,
+        release: 0.25,
+      },
+      onChunk: (buf) => appendPcm16(socket.id, buf),
+    });
 
     // pastikan WS realtime siap
     try {
@@ -297,62 +346,44 @@ registry.waitFor("transcriptionns", { timeoutMs: 5000 }).then((io) => {
 
     activeSocket = socket;
 
-    // Terima audio dari client (ArrayBuffer PCM16 mono @24k)
+    // OPTIONAL: frontend bisa kirim meta
+    // { sysRate, sysCh, micRate, micCh }
+    socket.on("tcript:meta", (meta = {}) => {
+      if (Number.isFinite(meta.sysRate)) sysRate = meta.sysRate | 0;
+      if (Number.isFinite(meta.sysCh)) sysCh = meta.sysCh | 0;
+      if (Number.isFinite(meta.micRate)) micRate = meta.micRate | 0;
+      if (Number.isFinite(meta.micCh)) micCh = meta.micCh | 0;
+      socket.emit("tcript:status", {
+        status: "meta-updated",
+        sysRate,
+        sysCh,
+        micRate,
+        micCh,
+      });
+    });
+
+    // Terima system audio
     socket.on("tcript:audiobuffer", (data) => {
       try {
-        let buf;
-        if (data instanceof ArrayBuffer) {
-          buf = Buffer.from(new Uint8Array(data));
-        } else if (ArrayBuffer.isView(data)) {
-          buf = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
-        } else if (Buffer.isBuffer(data)) {
-          buf = data;
-        } else if (typeof data === "string") {
-          // kalau ada yang mengirim base64 string
-          buf = Buffer.from(data, "base64");
-        } else {
-          console.warn(
-            "[TRANSCRIPTION] Unknown audio payload type:",
-            typeof data
-          );
-          return;
-        }
-
+        const buf = normalizeToBuffer(data);
         if (!buf || buf.length === 0) return;
-
         targetResponse = "audio";
-        appendPcm16(socket.id, buf);
+        // convert & kirim
+        sysProcessor.pushRawPCM16(buf, sysRate, sysCh);
       } catch (err) {
         console.error(`[TRANSCRIPTION] Audio error for ${socket.id}:`, err);
       }
     });
 
+    // Terima mic audio
     socket.on("tcript:micbuffer", (data) => {
       try {
-        let buf;
-        if (data instanceof ArrayBuffer) {
-          buf = Buffer.from(new Uint8Array(data));
-        } else if (ArrayBuffer.isView(data)) {
-          buf = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
-        } else if (Buffer.isBuffer(data)) {
-          buf = data;
-        } else if (typeof data === "string") {
-          // kalau ada yang mengirim base64 string
-          buf = Buffer.from(data, "base64");
-        } else {
-          console.warn(
-            "[TRANSCRIPTION] Unknown audio payload type:",
-            typeof data
-          );
-          return;
-        }
-
+        const buf = normalizeToBuffer(data);
         if (!buf || buf.length === 0) return;
-
         targetResponse = "mic";
-        appendPcm16(socket.id, buf);
+        micProcessor.pushRawPCM16(buf, micRate, micCh);
       } catch (err) {
-        console.error(`[TRANSCRIPTION] Audio error for ${socket.id}:`, err);
+        console.error(`[TRANSCRIPTION] Mic error for ${socket.id}:`, err);
       }
     });
 
@@ -367,6 +398,13 @@ registry.waitFor("transcriptionns", { timeoutMs: 5000 }).then((io) => {
     // Cleanup saat client disconnect
     socket.on("disconnect", () => {
       console.log(`[TRANSCRIPTION] client disconnected: ${socket.id}`);
+
+      try {
+        sysProcessor.flush();
+      } catch {}
+      try {
+        micProcessor.flush();
+      } catch {}
 
       // tutup WS realtime
       const ws = wsMap.get(socket.id);
