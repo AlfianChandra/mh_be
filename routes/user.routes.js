@@ -4,4 +4,7 @@ import { globalLimiter } from "../middlewares/ratelimit.middleware.js";
 const router = express.Router();
 
 router.post("/users/get", userControllerBuilder().getUsers);
+router.post("/users/authorize", (req, res) => {
+  return res.status(200);
+});
 export default router;

@@ -1,11 +1,27 @@
 import express from "express";
 import hintControllerBuilder from "../controllers/hint.controller.js";
+import { verifyRequest } from "../middlewares/jwtverifier.middleware.js";
 import { globalLimiter } from "../middlewares/ratelimit.middleware.js";
 const router = express.Router();
 
-router.post("/hints/save", globalLimiter, hintControllerBuilder().saveHint);
-router.post("/hints/get", globalLimiter, hintControllerBuilder().getHints);
-router.post("/hints/delete", globalLimiter, hintControllerBuilder().deleteHint);
+router.post(
+  "/hints/save",
+  globalLimiter,
+  verifyRequest,
+  hintControllerBuilder().saveHint
+);
+router.post(
+  "/hints/get",
+  globalLimiter,
+  verifyRequest,
+  hintControllerBuilder().getHints
+);
+router.post(
+  "/hints/delete",
+  globalLimiter,
+  verifyRequest,
+  hintControllerBuilder().deleteHint
+);
 router.post(
   "/hints/structure/create",
   globalLimiter,

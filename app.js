@@ -46,6 +46,9 @@ app.use(
   express.static(path.join(process.cwd(), "static/avatar"))
 );
 
+//User routes
+app.use("/api/v1/", globalLimiter, verifyRequest, userRoutes);
+
 //Panel routes
 app.use(
   "/api/v1/cpanel",
