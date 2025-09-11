@@ -42,4 +42,5 @@ router.post(
   globalLimiter,
   hintControllerBuilder().deleteStructures
 );
+router.post("/hints/update_content", globalLimiter, hintControllerBuilder().updateHintContent);
 export default router;

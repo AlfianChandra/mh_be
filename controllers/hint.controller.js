@@ -45,7 +45,9 @@ const hintControllerBuilder = () => {
       });
 
       await newHint.save();
-      return res.status(201).json({ message: "Hint saved successfully" });
+      return res
+        .status(201)
+        .json({ message: "Hint saved successfully", payload: newHint });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: "Internal Server Error" });
@@ -139,6 +141,24 @@ const hintControllerBuilder = () => {
     }
   };
 
+  const updateHintContent = async () => {
+    try {
+      const { hint_contents, id } = req.body;
+      const hint = await Hint.findById(id);
+      if (!hint) {
+        return res.status(404).json({ error: "Hint not found" });
+      }
+
+      hint.hint_contents = hint_contents;
+      await hint.save();
+      return res
+        .status(200)
+        .json({ message: "Hint content updated successfully" });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return {
     saveHint,
     getHints,
@@ -147,6 +167,7 @@ const hintControllerBuilder = () => {
     getStructures,
     updateStructures,
     deleteStructures,
+    updateHintContent,
   };
 };
 
