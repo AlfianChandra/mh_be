@@ -14,6 +14,7 @@ const hintControllerBuilder = () => {
         hint,
         title,
         id_meeting,
+        hint_contents,
       } = req.body;
       let imagePath = null;
       if (context_image.length > 0 && context_type === "image") {
@@ -40,6 +41,7 @@ const hintControllerBuilder = () => {
         hint: hint,
         title: title,
         id_meeting,
+        hint_contents: hint_contents,
       });
 
       await newHint.save();

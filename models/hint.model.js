@@ -40,6 +40,11 @@ const hintSchema = mongoose.Schema({
     required: true,
     ref: "Meeting",
   },
+  hint_contents: {
+    type: Array,
+    required: false,
+    default: [],
+  }
 });
 
 export const Hint = mongoose.model("Hint", hintSchema);
