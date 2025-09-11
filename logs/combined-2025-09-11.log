@@ -118,3 +118,4 @@
 [2025-09-11 22:47:00] [INFO]: [Listeners] Loaded 5 file(s)
 [2025-09-11 22:47:00] [INFO]: [BOOTSTRAP] All services ready.
 [2025-09-11 22:47:00] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
+[2025-09-11 23:17:35] [WARN]: [SHUTDOWN] Received SIGINT, closing services...
