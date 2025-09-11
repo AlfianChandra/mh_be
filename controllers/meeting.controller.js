@@ -134,6 +134,23 @@ const meetingBuilder = () => {
     }
   };
 
+  const updateSettingViewControl = async (req, res) => {
+    try {
+      const { id, viewControl } = req.body;
+      const meeting = await Meeting.findById(id);
+      if (!meeting) {
+        return res.status(404).json({ error: "Meeting not found" });
+      }
+
+      meeting.setting.viewControl = viewControl;
+      await meeting.save();
+      res.status(200).json({ message: "Setting updated successfully" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
   return {
     createMeeting,
     getMeeting,
@@ -142,6 +159,7 @@ const meetingBuilder = () => {
     deleteMeeting,
     getMeetingSetting,
     setMeetingSetting,
+    updateSettingViewControl,
   };
 };
 
