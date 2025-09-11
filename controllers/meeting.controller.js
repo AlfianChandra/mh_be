@@ -101,12 +101,29 @@ const meetingBuilder = () => {
     }
   };
 
+  const getMeetingSetting = async (req, res) => {
+    try {
+      const { id } = req.body;
+      const meeting = await Meeting.findById(id);
+      if (!meeting) {
+        return res.status(404).json({ error: "Meeting not found" });
+      }
+
+      const setting = meeting.setting || {};
+      res.status(200).json({ message: "ok", payload: setting });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
   return {
     createMeeting,
     getMeeting,
     updateMeetingContent,
     setActiveMeeting,
     deleteMeeting,
+    getMeetingSetting,
   };
 };
 

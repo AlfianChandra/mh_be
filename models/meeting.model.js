@@ -28,6 +28,25 @@ const meetingSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  setting: {
+    viewControl: {
+      invertBlock: {
+        type: Boolean,
+        default: false,
+        required: false,
+      },
+      blockView: {
+        type: Boolean,
+        default: true,
+        required: false,
+      },
+      columnSizes: {
+        type: Array,
+        default: [33.333333333, 33.333333333, 33.333333333],
+        required: false,
+      },
+    },
+  },
 });
 
 export const Meeting = mongoose.model("Meeting", meetingSchema);
