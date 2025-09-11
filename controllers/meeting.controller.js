@@ -109,8 +109,25 @@ const meetingBuilder = () => {
         return res.status(404).json({ error: "Meeting not found" });
       }
 
-      const setting = meeting.setting || {};
+      const setting = meeting.setting || null;
       res.status(200).json({ message: "ok", payload: setting });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
+  const setMeetingSetting = async (req, res) => {
+    try {
+      const { id, viewControl } = req.body;
+      const meeting = await Meeting.findById(id);
+      if (!meeting) {
+        return res.status(404).json({ error: "Meeting not found" });
+      }
+
+      meeting.setting.viewControl = viewControl;
+      await meeting.save();
+      res.status(200).json({ message: "Setting updated successfully" });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Internal server error" });
@@ -124,6 +141,7 @@ const meetingBuilder = () => {
     setActiveMeeting,
     deleteMeeting,
     getMeetingSetting,
+    setMeetingSetting,
   };
 };
 

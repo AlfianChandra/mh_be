@@ -73,3 +73,13 @@
 [2025-09-11 22:32:49] [INFO]: [Listeners] Loaded 5 file(s)
 [2025-09-11 22:32:49] [INFO]: [BOOTSTRAP] All services ready.
 [2025-09-11 22:32:49] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
+[2025-09-11 22:33:54] [INFO]: [DB] Connected to the database successfully
+[2025-09-11 22:33:54] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-09-11 22:33:54] [INFO]: [Listeners] Loaded 5 file(s)
+[2025-09-11 22:33:54] [INFO]: [BOOTSTRAP] All services ready.
+[2025-09-11 22:33:54] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
+[2025-09-11 22:34:52] [INFO]: [DB] Connected to the database successfully
+[2025-09-11 22:34:53] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-09-11 22:34:53] [INFO]: [Listeners] Loaded 5 file(s)
+[2025-09-11 22:34:53] [INFO]: [BOOTSTRAP] All services ready.
+[2025-09-11 22:34:53] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/

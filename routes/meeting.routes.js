@@ -7,5 +7,6 @@ router.post("/meeting/updatecontent", meetingBuilder().updateMeetingContent);
 router.post("/meeting/setactive", meetingBuilder().setActiveMeeting);
 router.post("/meeting/delete", meetingBuilder().deleteMeeting);
 router.post("/meeting/getsetting", meetingBuilder().getMeetingSetting);
+router.post("/meeting/setsetting", meetingBuilder().setMeetingSetting);
 
 export default router;
