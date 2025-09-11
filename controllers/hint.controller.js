@@ -141,7 +141,7 @@ const hintControllerBuilder = () => {
     }
   };
 
-  const updateHintContent = async () => {
+  const updateHintContent = async (req, res) => {
     try {
       const { hint_contents, id } = req.body;
       const hint = await Hint.findById(id);
