@@ -5,7 +5,7 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
   io.use(useSocketAuth);
   io.on("connection", async (socket) => {
     let openai = await getOpenAIInstance();
-
+    console.log("Client connected to hint namespace:", socket.id);
     socket.on("hint:send-recipe", async (data) => {
       const hintType = data.hint_type;
       const setting = data.setting;
