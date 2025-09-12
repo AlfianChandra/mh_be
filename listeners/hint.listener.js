@@ -190,7 +190,7 @@ async function getKeywords(openai, context, setting) {
         },
         {
           role: "user",
-          content: `Berikan saya daftar kata kunci dari konteks ini: ${context}. Hasilkan dalam format JSON array string tanpa penjelasan tambahan.`,
+          content: `Berikut konteksnya: ${context}. Hasilkan daftar pertanyaan dalam format JSON array string tanpa penjelasan tambahan.`,
         },
       ];
 
