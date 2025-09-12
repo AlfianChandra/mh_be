@@ -179,7 +179,8 @@ async function getKeywords(openai, context, setting) {
         {
           role: "system",
           content: `
-          Tugasmu hanya menghasilkan top 7 daftar pertanyaan dari kata kunci teknis atau asing yang muncul dalam konteks.  
+          Tugasmu hanya menghasilkan top 7 daftar pertanyaan dari kata kunci teknis atau asing yang muncul dalam konteks.
+          Urutkan dari yang paling relevan dan penting, hingga yang umum.  
           Format output HARUS valid JSON array of strings.  
           Jangan tambahkan teks atau penjelasan lain di luar array.  
 
