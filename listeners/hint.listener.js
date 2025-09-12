@@ -184,7 +184,7 @@ async function getKeywords(openai, context, setting) {
           Jangan hasilkan pertanyaan yang jawabannya sudah jelas ada di konteks.
           Format output HARUS valid JSON array of strings.  
           Jangan tambahkan teks atau penjelasan lain di luar array.
-          Berikan emoji yang berkaitan dengan pertanyaan di setiap pertanyaan. 
+          Berikan emoji yang berkaitan dengan pertanyaan di awal kalimat di setiap pertanyaan. 
 
           Contoh format output:  
           ["Apa itu X?", "Definisi dari X?", "Penjelasan tentang X?", "Bagaimana cara kerja X?", "Contoh penerapan X?"]
