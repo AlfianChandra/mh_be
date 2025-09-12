@@ -173,28 +173,33 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
 });
 
 async function getKeywords(openai, context, setting) {
-  const input = [
-    {
-      role: "system",
-      content: `
+  try {
+    const input = [
+      {
+        role: "system",
+        content: `
       Tugasmu hanya menghasilkan daftar kata kunci yang mungkin terdengar asing atau teknis dari konteks. Hasilkan dalam format JSON array string tanpa penjelasan tambahan.
       Berikut struktur output yang harus diikuti:
       ['Apa itu X?', 'Berikan definisi Y', 'Penjelasan Z', 'dst...']
       `,
-    },
-    {
-      role: "user",
-      content: `Berikan saya daftar kata kunci dari konteks ini: ${context}. Hasilkan dalam format JSON array string tanpa penjelasan tambahan.`,
-    },
-  ];
+      },
+      {
+        role: "user",
+        content: `Berikan saya daftar kata kunci dari konteks ini: ${context}. Hasilkan dalam format JSON array string tanpa penjelasan tambahan.`,
+      },
+    ];
 
-  const response = await openai.responses.create({
-    model: setting.model,
-    input,
-    stream: false,
-  });
+    const response = await openai.responses.create({
+      model: setting.model,
+      input,
+      stream: false,
+    });
 
-  return response.output[0].content[0].text;
+    return response.output[0].content[0].text;
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
 }
 
 async function getOpenAIInstance() {
