@@ -179,7 +179,7 @@ async function getKeywords(openai, context, setting) {
         {
           role: "system",
           content: `
-          Tugasmu hanya menghasilkan daftar kata kunci yang mungkin terdengar asing atau teknis dari konteks. Hasilkan dalam format JSON array string yang valid tanpa penjelasan tambahan.
+          Tugasmu hanya menghasilkan top 5 daftar kata kunci yang mungkin terdengar asing atau teknis dari konteks. Hasilkan dalam format JSON array string yang valid tanpa penjelasan tambahan.
           Berikut struktur output yang harus diikuti:
           ['Apa itu X?', 'Berikan definisi Y', 'Penjelasan Z', 'dst...']
           `,
