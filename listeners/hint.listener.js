@@ -152,10 +152,16 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
         }
         if (ev.type === "response.completed") {
           console.log(ev.response);
-          socket.emit(
-            "hint:response-complete",
-            ev.response.output[0].content[0].text
-          );
+          getKeywords(context, setting)
+            .then((keywords) => {
+              socket.emit("hint:response-completed", {
+                text: ev.response.output[0].content[0].text,
+                keywords: keywords,
+              });
+            })
+            .catch((error) => {
+              console.error("Error fetching keywords:", error);
+            });
         }
       }
     });
@@ -164,6 +170,27 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
     });
   });
 });
+
+async function getKeywords(context, setting) {
+  const input = [
+    {
+      role: "system",
+      content: `
+      Tugasmu hanya menghasilkan daftar kata kunci yang mungkin terdengar asing atau teknis dari konteks. Hasilkan dalam format JSON array string tanpa penjelasan tambahan.
+      Berikut struktur output yang harus diikuti:
+      ['Apa itu X?', 'Berikan definisi Y', 'Penjelasan Z', 'dst...']
+      `,
+    },
+  ];
+
+  const response = await openai.responses.create({
+    model: setting.model,
+    input,
+    stream: false,
+  });
+
+  return response.output[0].content[0].text;
+}
 
 async function getOpenAIInstance() {
   const openai = await registry.waitFor("openai");

@@ -8,6 +8,11 @@ const mongooseSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  locked: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 
 export const HintStructure = mongoose.model("HintStructure", mongooseSchema);
