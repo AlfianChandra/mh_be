@@ -171,7 +171,7 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
   });
 });
 
-async function getKeywords(context, setting) {
+async function getKeywords(openai, context, setting) {
   const input = [
     {
       role: "system",
@@ -180,6 +180,10 @@ async function getKeywords(context, setting) {
       Berikut struktur output yang harus diikuti:
       ['Apa itu X?', 'Berikan definisi Y', 'Penjelasan Z', 'dst...']
       `,
+    },
+    {
+      role: "user",
+      content: `Berikan saya daftar kata kunci dari konteks ini: ${context}. Hasilkan dalam format JSON array string tanpa penjelasan tambahan.`,
     },
   ];
 
