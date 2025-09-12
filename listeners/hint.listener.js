@@ -154,6 +154,7 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
           console.log(ev.response);
           getKeywords(openai, context, setting)
             .then((keywords) => {
+              console.log("Keywords:", keywords);
               socket.emit("hint:response-completed", {
                 text: ev.response.output[0].content[0].text,
                 keywords: keywords,
