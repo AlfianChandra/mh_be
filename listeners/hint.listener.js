@@ -179,9 +179,12 @@ async function getKeywords(openai, context, setting) {
         {
           role: "system",
           content: `
-          Tugasmu hanya menghasilkan top 5 daftar kata kunci yang mungkin terdengar asing atau teknis dari konteks. Hasilkan dalam format JSON array string yang valid tanpa penjelasan tambahan.
-          Berikut struktur output yang harus diikuti:
-          ['Apa itu X?', 'Berikan definisi Y', 'Penjelasan Z', 'dst...']
+          Tugasmu hanya menghasilkan top 5 daftar kata kunci yang mungkin terdengar asing atau teknis dari konteks.  
+          Hasilkan dalam format **JSON array of strings** yang valid.  
+          Jangan berikan penjelasan tambahan, jangan ada teks di luar array.  
+
+          Contoh format output:  
+          ["Apa itu X?", "Berikan definisi Y", "Penjelasan Z", "dst..."]
           `,
         },
         {
