@@ -194,7 +194,7 @@ async function getKeywords(openai, context, setting) {
       input,
       stream: false,
     });
-
+    console.log(response);
     return response.output[0].content[0].text;
   } catch (err) {
     console.error(err);
