@@ -183,7 +183,8 @@ async function getKeywords(openai, context, setting) {
           Urutkan dari yang paling relevan dan penting, hingga yang umum.
           Jangan hasilkan pertanyaan yang jawabannya sudah jelas ada di konteks.
           Format output HARUS valid JSON array of strings.  
-          Jangan tambahkan teks atau penjelasan lain di luar array.  
+          Jangan tambahkan teks atau penjelasan lain di luar array.
+          Berikan emoji yang berkaitan dengan pertanyaan di setiap pertanyaan. 
 
           Contoh format output:  
           ["Apa itu X?", "Definisi dari X?", "Penjelasan tentang X?", "Bagaimana cara kerja X?", "Contoh penerapan X?"]
