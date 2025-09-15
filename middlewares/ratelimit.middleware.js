@@ -5,8 +5,8 @@ dotenv.config({ silent: true });
 const devEnv = process.env.SERVER_ENV === "development";
 const maxRequest = {
   global: 99999,
-  register: 5,
-  login: 10,
+  register: 999,
+  login: 999,
 };
 
 const maxTime = {
