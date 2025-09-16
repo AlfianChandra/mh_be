@@ -40,6 +40,20 @@ const meetingBuilder = () => {
     }
   };
 
+  const getMeetingData = async (req, res) => {
+    try {
+      const { id } = req.body;
+      const meeting = await Meeting.findById(id).select("-createdAt -__v");
+      if (!meeting) {
+        return res.status(404).json({ error: "Meeting not found" });
+      }
+      res.status(200).json({ message: "ok", payload: meeting });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
   const updateMeetingContent = async (req, res) => {
     try {
       const { id, raw, block } = req.body;
@@ -160,6 +174,7 @@ const meetingBuilder = () => {
     getMeetingSetting,
     setMeetingSetting,
     updateSettingViewControl,
+    getMeetingData,
   };
 };
 
