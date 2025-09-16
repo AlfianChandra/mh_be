@@ -33,9 +33,7 @@ const meetingBuilder = () => {
       const meetings = await Meeting.find({ id_user: req.user.id_user }).sort({
         is_active: -1,
       });
-      return res
-        .status(200)
-        .json({ message: "ok", meeting: meetings.toJSON() });
+      return res.status(200).json({ message: "ok", meeting: meetings });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Internal server error" });
