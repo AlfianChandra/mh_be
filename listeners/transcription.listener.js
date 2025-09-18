@@ -1,6 +1,7 @@
 // transcription.service.js
 import dotenv from "dotenv";
 dotenv.config({ silent: true });
+
 import Mode from "../models/mode.model.js";
 import registry from "../utils/serviceregistry.utils.js";
 import WebSocket from "ws";
@@ -9,8 +10,10 @@ import { useSocketAuth } from "../middlewares/authverifier.socket.middleware.js"
 // =======================
 // State & Config
 // =======================
-let activeSocket = null;
+
+// REMOVED: let activeSocket = null; // ini yang bikin masalah
 let targetResponse = "";
+
 const targetSocket = {
   audio: {
     delta: "tcript:result:delta",
@@ -43,6 +46,7 @@ const openAiUrl =
 // =======================
 // Utils: ping/keepalive
 // =======================
+
 function schedulePing(ws, socketId) {
   clearInterval(pingIntervals.get(socketId));
   const id = setInterval(() => {
@@ -64,6 +68,7 @@ function clearPing(socketId) {
 // =======================
 // Utils: reconnect logic
 // =======================
+
 function scheduleReconnect(socketId) {
   // Kalau client (Socket.IO) sudah putus, gak perlu reconnect
   if (!audioStates.has(socketId)) return;
@@ -84,6 +89,7 @@ function scheduleReconnect(socketId) {
       await getOrCreateWs(socketId); // tunggu sampai 'open'
       reconnectAttempts.set(socketId, 0);
       flushAudioQueue(socketId);
+
       const st = audioStates.get(socketId);
       st?.socket?.emit?.("tcript:status", { status: "reconnected" });
     } catch (e) {
@@ -105,6 +111,7 @@ function scheduleReconnect(socketId) {
 // =======================
 // Utils: audio queue
 // =======================
+
 function initAudioQueue(socketId) {
   if (!audioQueues.has(socketId)) {
     audioQueues.set(socketId, { chunks: [], bytes: 0 });
@@ -114,10 +121,12 @@ function initAudioQueue(socketId) {
 function enqueueAudio(socketId, buf) {
   initAudioQueue(socketId);
   const q = audioQueues.get(socketId);
+
   while (q.bytes + buf.length > MAX_QUEUE_BYTES && q.chunks.length) {
     const old = q.chunks.shift();
     q.bytes -= old.length;
   }
+
   q.chunks.push(buf);
   q.bytes += buf.length;
 }
@@ -125,12 +134,14 @@ function enqueueAudio(socketId, buf) {
 function flushAudioQueue(socketId) {
   const ws = wsMap.get(socketId);
   if (!ws || ws.readyState !== WebSocket.OPEN) return;
+
   const q = audioQueues.get(socketId);
   if (!q || q.chunks.length === 0) return;
 
   console.log(
     `[OpenAI WS] flushing ${q.chunks.length} chunks (${q.bytes} bytes) for ${socketId}`
   );
+
   for (const buf of q.chunks) {
     ws.send(
       JSON.stringify({
@@ -139,6 +150,7 @@ function flushAudioQueue(socketId) {
       })
     );
   }
+
   q.chunks = [];
   q.bytes = 0;
 }
@@ -146,9 +158,11 @@ function flushAudioQueue(socketId) {
 // =======================
 // OpenAI Realtime WS Factory
 // =======================
+
 async function getOrCreateWs(socketId) {
   let ws = wsMap.get(socketId);
   if (ws && ws.readyState === WebSocket.OPEN) return ws;
+
   const mode = await Mode.find({});
   const OPENAI_API_KEY =
     mode.length > 0
@@ -156,12 +170,14 @@ async function getOrCreateWs(socketId) {
         ? process.env.OPENAI_API_KEY_MODE_DEV
         : process.env.OPENAI_API_KEY_MODE_PROD
       : process.env.OPENAI_API_KEY_MODE_DEV;
+
   ws = new WebSocket(openAiUrl, {
     headers: {
       Authorization: `Bearer ${OPENAI_API_KEY}`,
       "OpenAI-Beta": "realtime=v1",
     },
   });
+
   wsMap.set(socketId, ws);
   ws.setMaxListeners(50);
 
@@ -173,14 +189,11 @@ async function getOrCreateWs(socketId) {
         modalities: ["text"],
         instructions:
           "Transkripsi verbatim ke bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke bahasa indonesia",
-        input_audio_format: "pcm16",
-
-        // rekomendasi model STT
+        input_audio_format: "pcm16", // rekomendasi model STT
         input_audio_transcription: {
           model: "gpt-4o-mini-transcribe",
           language: "id", // biar langsung diarahkan ke bahasa Indonesia
         },
-
         // Voice Activity Detection
         turn_detection: {
           type: "server_vad",
@@ -192,12 +205,15 @@ async function getOrCreateWs(socketId) {
         },
       },
     };
+
     ws.send(JSON.stringify(sessionConfig));
   });
 
   // --- MESSAGE ---
   ws.on("message", (raw) => {
     const data = JSON.parse(raw.toString());
+
+    // FIXED: Ambil socket dari audioStates berdasarkan socketId
     const state = audioStates.get(socketId);
     const socket = state?.socket;
 
@@ -205,14 +221,13 @@ async function getOrCreateWs(socketId) {
     // console.log('[OpenAI WS]', data.type);
 
     if (data.type === "conversation.item.input_audio_transcription.delta") {
-      activeSocket?.emit?.(targetSocket[targetResponse].delta, data.delta);
+      // FIXED: Emit ke socket yang tepat, bukan activeSocket
+      socket?.emit?.(targetSocket[targetResponse].delta, data.delta);
     } else if (
       data.type === "conversation.item.input_audio_transcription.completed"
     ) {
-      activeSocket?.emit?.(
-        targetSocket[targetResponse].completed,
-        data.transcript
-      );
+      // FIXED: Emit ke socket yang tepat, bukan activeSocket
+      socket?.emit?.(targetSocket[targetResponse].completed, data.transcript);
     } else if (data.type === "error") {
       console.error("[OpenAI WS] error event payload:", data);
       // biarkan close yang memicu reconnect kalau fatal
@@ -252,6 +267,7 @@ async function getOrCreateWs(socketId) {
 // =======================
 // Kirim audio (PCM16 mono 24k)
 // =======================
+
 function appendPcm16(socketId, pcm16Buffer) {
   const ws = wsMap.get(socketId);
 
@@ -275,10 +291,13 @@ function appendPcm16(socketId, pcm16Buffer) {
 // =======================
 // Socket.IO listener
 // =======================
+
 registry.waitFor("transcriptionns", { timeoutMs: 5000 }).then((io) => {
   io.use(useSocketAuth);
+
   io.on("connection", async (socket) => {
     console.log(`[TRANSCRIPTION] client connected: ${socket.id}`);
+
     audioStates.set(socket.id, { socket, ready: false });
     initAudioQueue(socket.id);
 
@@ -295,7 +314,7 @@ registry.waitFor("transcriptionns", { timeoutMs: 5000 }).then((io) => {
       });
     }
 
-    activeSocket = socket;
+    // REMOVED: activeSocket = socket; // ini yang bikin masalah!
 
     // Terima audio dari client (ArrayBuffer PCM16 mono @24k)
     socket.on("tcript:audiobuffer", (data) => {
