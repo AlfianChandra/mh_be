@@ -11,9 +11,6 @@ import { useSocketAuth } from "../middlewares/authverifier.socket.middleware.js"
 // State & Config
 // =======================
 
-// REMOVED: let activeSocket = null; // ini yang bikin masalah
-let targetResponse = "";
-
 const targetSocket = {
   audio: {
     delta: "tcript:result:delta",
@@ -26,7 +23,7 @@ const targetSocket = {
 };
 
 const wsMap = new Map(); // socketId -> WebSocket (OpenAI Realtime)
-const audioStates = new Map(); // socketId -> { socket, ready }
+const audioStates = new Map(); // socketId -> { socket, ready, targetResponse }
 const isProcessing = new Map(); // (opsional) guard pemrosesan
 
 // Reconnect, ping & queue
@@ -213,21 +210,29 @@ async function getOrCreateWs(socketId) {
   ws.on("message", (raw) => {
     const data = JSON.parse(raw.toString());
 
-    // FIXED: Ambil socket dari audioStates berdasarkan socketId
+    // FIXED: Ambil socket dan targetResponse dari audioStates berdasarkan socketId
     const state = audioStates.get(socketId);
     const socket = state?.socket;
+    const currentTargetResponse = state?.targetResponse;
 
     // Debug tipe event:
     // console.log('[OpenAI WS]', data.type);
 
     if (data.type === "conversation.item.input_audio_transcription.delta") {
-      // FIXED: Emit ke socket yang tepat, bukan activeSocket
-      socket?.emit?.(targetSocket[targetResponse].delta, data.delta);
+      // FIXED: Emit ke socket yang tepat dengan targetResponse per-socket
+      if (currentTargetResponse && socket) {
+        socket.emit(targetSocket[currentTargetResponse].delta, data.delta);
+      }
     } else if (
       data.type === "conversation.item.input_audio_transcription.completed"
     ) {
-      // FIXED: Emit ke socket yang tepat, bukan activeSocket
-      socket?.emit?.(targetSocket[targetResponse].completed, data.transcript);
+      // FIXED: Emit ke socket yang tepat dengan targetResponse per-socket
+      if (currentTargetResponse && socket) {
+        socket.emit(
+          targetSocket[currentTargetResponse].completed,
+          data.transcript
+        );
+      }
     } else if (data.type === "error") {
       console.error("[OpenAI WS] error event payload:", data);
       // biarkan close yang memicu reconnect kalau fatal
@@ -298,7 +303,7 @@ registry.waitFor("transcriptionns", { timeoutMs: 5000 }).then((io) => {
   io.on("connection", async (socket) => {
     console.log(`[TRANSCRIPTION] client connected: ${socket.id}`);
 
-    audioStates.set(socket.id, { socket, ready: false });
+    audioStates.set(socket.id, { socket, ready: false, targetResponse: null });
     initAudioQueue(socket.id);
 
     // pastikan WS realtime siap
@@ -339,7 +344,10 @@ registry.waitFor("transcriptionns", { timeoutMs: 5000 }).then((io) => {
 
         if (!buf || buf.length === 0) return;
 
-        targetResponse = "audio";
+        // FIXED: Set targetResponse per-socket
+        const state = audioStates.get(socket.id);
+        if (state) state.targetResponse = "audio";
+
         appendPcm16(socket.id, buf);
       } catch (err) {
         console.error(`[TRANSCRIPTION] Audio error for ${socket.id}:`, err);
@@ -368,7 +376,10 @@ registry.waitFor("transcriptionns", { timeoutMs: 5000 }).then((io) => {
 
         if (!buf || buf.length === 0) return;
 
-        targetResponse = "mic";
+        // FIXED: Set targetResponse per-socket
+        const state = audioStates.get(socket.id);
+        if (state) state.targetResponse = "mic";
+
         appendPcm16(socket.id, buf);
       } catch (err) {
         console.error(`[TRANSCRIPTION] Audio error for ${socket.id}:`, err);
