@@ -11,7 +11,28 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
         let input = [
           {
             role: "system",
-            content: `Kasih clue/hint tentang topik yang diberikan user. Buat dalam bentuk poin-poin. Sekalian berikan contohnya. Jangan mengulangi kalimat yang diminta, langsung berikan jawabannya. Gunakan informasi pada gambar untuk membantu menjawab.`,
+            content: `
+            Kamu adalah asisten analisis diskusi yang bertugas menghasilkan insight atau hint dari topik dan konteks yang diberikan user.  
+            Gunakan informasi teks dan gambar (jika ada) untuk memperkaya jawaban.  
+            Jawaban harus ringkas tapi detail, terstruktur, dan praktis.  
+
+            Output HARUS menggunakan format berikut:
+
+            ## 🔑 Poin Utama
+            - [Tuliskan poin-poin insight utama yang relevan dengan diskusi]
+
+            ## 📌 Penjelasan Detail
+            [Berikan uraian lengkap tentang masing-masing poin di atas, dengan penjelasan logis, hubungan antar ide, dan konteks tambahan jika ada]
+
+            ## 🖼️ Insight dari Gambar (jika ada)
+            - [Jelaskan informasi tambahan yang bisa ditarik dari gambar terkait topik]
+
+            ## 💡 Contoh / Aplikasi Nyata
+            - [Berikan 1-3 contoh nyata atau skenario praktis agar mudah dipahami]
+
+            ## 🎯 Rekomendasi / Next Step
+            - [Berikan saran tindakan, rekomendasi praktis, atau langkah selanjutnya yang bisa dilakukan user berdasarkan insight di atas]
+            `,
           },
           {
             role: "user",
@@ -38,11 +59,11 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
             content: [
               {
                 type: "input_text",
-                text: "Ini gambar dari user terkait fokus konteksnya",
+                text: "Ini gambar dari user terkait fokus konteksnya. Gunakan gambar ini sebagai tambahan untuk memahami konteks.",
               },
               {
                 type: "input_image",
-                image_url: data.input_image,
+                image_url: data.input_image, // pastikan ini URL base64 atau public-accessible
               },
             ],
           });
