@@ -211,7 +211,18 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
       for await (const res of response) {
         if (res.type === "message") {
           const content = res.content;
-          console.log(content);
+          for (const c of content) {
+            if (c.type === "output_text") {
+              { 
+                const text = c.text
+                const annotation = c.annotations
+                socket.emit("summarization:quick-search-delta", {
+                  text,
+                  annotation
+                });
+              }
+            }
+          }
         }
       }
     });
