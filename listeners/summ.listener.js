@@ -180,7 +180,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
         {
           role: "system",
           content:
-            "Kamu adalah asisten yang bertugas untuk mencari informasi di internet sesuai dengan permintaan pengguna",
+            "Kamu adalah asisten yang bertugas untuk mencari informasi di internet atau menjelaskan sesuai dengan permintaan pengguna",
         },
         {
           role: "user",
