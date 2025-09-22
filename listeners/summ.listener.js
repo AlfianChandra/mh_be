@@ -206,7 +206,6 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
         model: "gpt-4.1-2025-04-14",
         tools: [{ type: "web_search" }],
         input,
-        stream: true,
       });
 
       console.log(response.output);
