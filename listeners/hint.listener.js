@@ -121,6 +121,13 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
           content: `Konteks ini berujudul ${data.context_title}. Berikut adalah konteks penuh dari sesi pembahasan saat ini: ${transcription}. Selalu berikan referensi dari sumber manapun yang kamu tau (buku, jurnal, internet). Buat dalam bentuk poin-poin`,
         });
 
+        if (prompt && prompt.length > 0) {
+          input.push({
+            role: "user",
+            content: [{ type: "input_text", text: `${prompt}` }],
+          });
+        }
+
         if (motion.length > 0) {
           input.push({
             role: "user",
@@ -134,13 +141,6 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
                 image_url: img, // pastikan ini URL base64 atau public-accessible
               })),
             ],
-          });
-        }
-
-        if (prompt && prompt.length > 0) {
-          input.push({
-            role: "user",
-            content: [{ type: "input_text", text: `${prompt}` }],
           });
         }
       } else {
