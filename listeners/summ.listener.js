@@ -137,6 +137,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
     });
 
     socket.on("summarization:request-qq", async (data) => {
+      const setting = data.setting;
       try {
         let input = [
           {
