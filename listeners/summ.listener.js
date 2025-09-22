@@ -248,7 +248,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
         input,
       });
 
-      console.log(response);
+      socket.emit("summarization:quick-search-internet", response.output_text);
     });
 
     socket.on("disconnect", () => {
