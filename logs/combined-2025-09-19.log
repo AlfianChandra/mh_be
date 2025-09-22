@@ -1,0 +1,6 @@
+[2025-09-19 14:19:59] [INFO]: [DB] Connected to the database successfully
+[2025-09-19 14:19:59] [INFO]: [BOOTSTRAP] Loading listeners...
+[2025-09-19 14:19:59] [INFO]: [Listeners] Loaded 5 file(s)
+[2025-09-19 14:19:59] [INFO]: [BOOTSTRAP] All services ready.
+[2025-09-19 14:19:59] [INFO]: [SERVER] [v1.0.0] [DEVELOPMENT]: Server is running on http://localhost:9703/
+[2025-09-19 14:20:17] [WARN]: [SHUTDOWN] Received SIGINT, closing services...
