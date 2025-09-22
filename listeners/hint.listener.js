@@ -129,6 +129,8 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
           });
         }
 
+        console.log(motion);
+
         input.push({
           role: "user",
           content: `Berikan saya petunjuk tentang narasi ini: ${context}. ${
