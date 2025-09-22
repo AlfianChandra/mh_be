@@ -175,7 +175,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
       }
     });
 
-    socket.on("summarization:quick-search-delta", async (data) => {
+    socket.on("summarization:request-quick-search", async (data) => {
       let input = [
         {
           role: "system",
