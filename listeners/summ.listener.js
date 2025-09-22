@@ -208,7 +208,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
         input,
       });
 
-      console.log(reponse);
+      console.log(response); // Debug: log the entire response object
       for (const res of response) {
         if (res.type === "message") {
           const content = res.content;
