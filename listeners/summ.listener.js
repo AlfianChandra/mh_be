@@ -208,7 +208,12 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
         input,
       });
 
-      console.log(response.output);
+      for await (const res of response) {
+        if (res.type === "message") {
+          const content = res.content;
+          console.log(content);
+        }
+      }
     });
 
     socket.on("disconnect", () => {
