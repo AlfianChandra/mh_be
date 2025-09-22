@@ -204,25 +204,13 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
 
       const response = await openai.responses.create({
         model: "gpt-4.1-mini-2025-04-14",
-        tools: [{ type: "web_search" }],
+        stream: true,
         input,
       });
 
-      for (const res of response.output) {
-        if (res.type === "message") {
-          const content = res.content;
-          for (const c of content) {
-            if (c.type === "output_text") {
-              {
-                const text = c.text;
-                const annotation = c.annotations;
-                socket.emit("summarization:quick-search-delta", {
-                  text,
-                  annotation,
-                });
-              }
-            }
-          }
+      for await (const res of response) {
+        if (res.delta !== undefined) {
+          socket.emit("summarization:quick-search-delta", res.delta);
         }
       }
     });
