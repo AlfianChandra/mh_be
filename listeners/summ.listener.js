@@ -175,6 +175,43 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
       }
     });
 
+    socket.on("summarization:quick-search-delta", async (data) => {
+      let input = [
+        {
+          role: "system",
+          content:
+            "Kamu adalah asisten yang bertugas untuk mencari informasi di internet sesuai dengan permintaan pengguna",
+        },
+        {
+          role: "user",
+          content: [
+            {
+              type: "input_text",
+              text:
+                "Berikut topik nya, silahkan pelajari topik ini sebagai data tambahan: " +
+                data.topic,
+            },
+            {
+              type: "input_text",
+              text:
+                "Cari di Wikipedia terkait kata kunci berikut: " +
+                data.keyword +
+                ". Langsung berikan penjelasan tanpa mengulang pertanyaan.",
+            },
+          ],
+        },
+      ];
+
+      const response = await openai.responses.create({
+        model: "gpt-4.1-2025-04-14",
+        tools: [{ type: "web_search" }],
+        input,
+        stream: true,
+      });
+
+      console.log(response.output);
+    });
+
     socket.on("disconnect", () => {
       logger.info(`[SUMMARIZATION] client left: ${socket.id}`);
     });
