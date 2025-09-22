@@ -44,7 +44,12 @@ const hintSchema = mongoose.Schema({
     type: Array,
     required: false,
     default: [],
-  }
+  },
+  hint_images: {
+    type: Array,
+    required: false,
+    default: [],
+  },
 });
 
 export const Hint = mongoose.model("Hint", hintSchema);

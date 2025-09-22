@@ -14,6 +14,7 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
       const context = data.hint_context; // context for the hint
       const hintMedia = data.hint_media; //base64 image
       const structure = data.response_structure;
+      const motion = data.motion || [];
 
       //Forge the input
       let input = [];
@@ -111,6 +112,22 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
           role: "system",
           content: `Konteks ini berujudul ${data.context_title}. Berikut adalah konteks penuh dari sesi pembahasan saat ini: ${transcription}. Selalu berikan referensi dari sumber manapun yang kamu tau (buku, jurnal, internet). Buat dalam bentuk poin-poin`,
         });
+
+        if (motion.length > 0) {
+          input.push({
+            role: "user",
+            content: [
+              {
+                type: "input_text",
+                text: "Berikut adalah gambar-gambar yang diambil saat sesi meeting berlangsung. Gunakan gambar ini sebagai tambahan untuk memahami konteks.",
+              },
+              ...motion.map((img, idx) => ({
+                type: "input_image",
+                image_url: img, // pastikan ini URL base64 atau public-accessible
+              })),
+            ],
+          });
+        }
 
         input.push({
           role: "user",

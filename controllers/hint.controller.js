@@ -54,6 +54,57 @@ const hintControllerBuilder = () => {
     }
   };
 
+  const saveMotionHint = async (req, res) => {
+    try {
+      const {
+        context_type,
+        context_image,
+        prompt,
+        hint,
+        title,
+        id_meeting,
+        hint_contents,
+        media
+      } = req.body;
+      let imagePath = null;
+      if (context_image.length > 0 && context_type === "image") {
+        imagePath = await fileUploaderInstance.uploadImage(context_image);
+      }
+
+      const input = [
+        {
+          role: "system",
+          content:
+            "Kamu adalah asisten AI yang ditugaskan untuk membuat judul dari sebuah diskusi. Hasilkan judul dari inti pembahasan yang penting. Buat kedalam bentuk 1 paragraf yang hanya terdiri dari 12 kata",
+        },
+        {
+          role: "user",
+          content: `Berikut diskusinya: ${hint}`,
+        },
+      ];
+      const newContext = await useOpenAiLib().createResponse(input);
+      const newHint = new Hint({
+        context: newContext,
+        context_type: context_type,
+        context_image: imagePath,
+        prompt: prompt,
+        hint: hint,
+        title: title,
+        id_meeting,
+        hint_contents: hint_contents,
+        hint_images: media
+      });
+
+      await newHint.save();
+      return res
+        .status(201)
+        .json({ message: "Hint saved successfully", payload: newHint });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+
   const getHints = async (req, res) => {
     try {
       const { id_meeting } = req.body;
