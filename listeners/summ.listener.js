@@ -194,7 +194,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
             {
               type: "input_text",
               text:
-                "Cari di Wikipedia terkait kata kunci berikut: " +
+                "Definisikan kata kunci berikut: " +
                 data.keyword +
                 ". Langsung berikan penjelasan tanpa mengulang pertanyaan.",
             },
