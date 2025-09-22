@@ -137,12 +137,12 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
           });
         }
 
-        input.push({
-          role: "user",
-          content: `Berikan saya petunjuk tentang narasi ini: ${context}. ${
-            prompt.length > 0 ? "Berikut instruksi tambahan: " + prompt : ""
-          }`,
-        });
+        if (prompt && prompt.length > 0) {
+          input.push({
+            role: "user",
+            content: [{ type: "input_text", text: `${prompt}` }],
+          });
+        }
       } else {
         input.push({
           role: "system",
