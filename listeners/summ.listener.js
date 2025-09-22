@@ -208,7 +208,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
         input,
       });
 
-      for await (const res of response) {
+      for (const res of response) {
         if (res.type === "message") {
           const content = res.content;
           for (const c of content) {
