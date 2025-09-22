@@ -127,7 +127,7 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
             content: [
               {
                 type: "input_text",
-                text: "Berikut adalah gambar-gambar yang diambil saat sesi meeting berlangsung. Gunakan gambar ini sebagai tambahan untuk memahami konteks.",
+                text: "Berikut adalah gambar-gambar yang diambil saat sesi meeting berlangsung. Gunakan gambar ini sebagai tambahan untuk memahami konteks...",
               },
               ...motion.map((img, idx) => ({
                 type: "input_image",
