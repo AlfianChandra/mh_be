@@ -30,8 +30,7 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
         2. Gunakan gambar/motion sebagai petunjuk tambahan untuk memperkuat atau mengoreksi narasi.
         3. Jika ada konflik antara teks dan visual, gunakan keduanya untuk menyimpulkan hal yang paling logis.
         4. Jangan mendeskripsikan gambar secara mentah, melainkan tarik insight dari hubungan antara teks + visual.
-        5. Hasilkan petunjuk/hint yang relevan, faktual, dan membantu memahami konteks diskusi.
-        6. Tetap gunakan struktur respon yang diminta pengguna.
+        5. Tetap gunakan struktur respon yang diminta pengguna.
 
         Jangan mengulangi kata-kata yang telah diberikan. Jangan gunakan intro.
         Selalu cek fakta dan kebenaran narasi dari pengguna.
