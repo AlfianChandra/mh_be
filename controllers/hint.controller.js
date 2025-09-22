@@ -15,6 +15,7 @@ const hintControllerBuilder = () => {
         title,
         id_meeting,
         hint_contents,
+        media,
       } = req.body;
       let imagePath = null;
       if (context_image.length > 0 && context_type === "image") {
@@ -42,6 +43,7 @@ const hintControllerBuilder = () => {
         title: title,
         id_meeting,
         hint_contents: hint_contents,
+        hint_images: media || [],
       });
 
       await newHint.save();
@@ -64,7 +66,7 @@ const hintControllerBuilder = () => {
         title,
         id_meeting,
         hint_contents,
-        media
+        media,
       } = req.body;
       let imagePath = null;
       if (context_image.length > 0 && context_type === "image") {
@@ -92,7 +94,7 @@ const hintControllerBuilder = () => {
         title: title,
         id_meeting,
         hint_contents: hint_contents,
-        hint_images: media
+        hint_images: media,
       });
 
       await newHint.save();
