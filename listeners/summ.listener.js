@@ -180,7 +180,47 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
         {
           role: "system",
           content:
-            "Kamu adalah asisten yang bertugas untuk mencari informasi di internet atau menjelaskan sesuai dengan permintaan pengguna",
+            "Kamu adalah asisten yang bertugas untuk menjelaskan definisi suatu kata kunci sesuai dengan permintaan pengguna",
+        },
+        {
+          role: "user",
+          content: [
+            {
+              type: "input_text",
+              text:
+                "Berikut topik nya, silahkan pelajari topik ini sebagai data tambahan: " +
+                data.topic,
+            },
+            {
+              type: "input_text",
+              text:
+                "Definisikan kata kunci berikut: " +
+                data.keyword +
+                "Tambah 1 paragraf penjelasan yang berkaitan dengan topik. Langsung berikan penjelasan tanpa mengulang pertanyaan.",
+            },
+          ],
+        },
+      ];
+
+      const response = await openai.responses.create({
+        model: "gpt-4.1-mini-2025-04-14",
+        stream: true,
+        input,
+      });
+
+      for await (const res of response) {
+        if (res.delta !== undefined) {
+          socket.emit("summarization:quick-search-delta", res.delta);
+        }
+      }
+    });
+
+    socket.on("summarization:request-quick-search-internet", async (data) => {
+      let input = [
+        {
+          role: "system",
+          content:
+            "Kamu adalah asisten yang bertugas untuk mencari informasi di internet sesuai dengan permintaan pengguna",
         },
         {
           role: "user",
@@ -204,14 +244,12 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
 
       const response = await openai.responses.create({
         model: "gpt-4.1-mini-2025-04-14",
-        stream: true,
+        tools: [{ type: "web_search" }],
         input,
       });
 
-      for await (const res of response) {
-        if (res.delta !== undefined) {
-          socket.emit("summarization:quick-search-delta", res.delta);
-        }
+      for (const res of response) { 
+        
       }
     });
 
