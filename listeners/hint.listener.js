@@ -117,13 +117,23 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
       if (hintType === "text") {
         input.push({
           role: "system",
-          content: `Konteks ini berujudul ${data.context_title}. Berikut adalah konteks penuh dari sesi pembahasan saat ini: ${transcription}. Selalu berikan referensi dari sumber manapun yang kamu tau (buku, jurnal, internet). Buat dalam bentuk poin-poin`,
+          content: `Topik ini berujudul ${data.context_title}. Berikut adalah konteks penuh dari sesi pembahasan saat ini: ${transcription}. Selalu berikan referensi dari sumber manapun yang kamu tau (buku, jurnal, internet). Buat dalam bentuk poin-poin`,
+        });
+
+        input.push({
+          role: "user",
+          content: "Berikut adalah konteks yang diberikan pengguna: " + context,
         });
 
         if (prompt && prompt.length > 0) {
           input.push({
             role: "user",
-            content: [{ type: "input_text", text: `${prompt}` }],
+            content: [
+              {
+                type: "input_text",
+                text: `Berikut adalah instruksi tambahan dari pengguna: ${prompt}`,
+              },
+            ],
           });
         }
 
