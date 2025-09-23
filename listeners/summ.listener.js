@@ -181,7 +181,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
           role: "system",
           content: `Kamu adalah asisten yang bertugas untuk menjelaskan definisi suatu kata kunci sesuai dengan permintaan pengguna. Jelaskan minimal 3 paragraf panjang
             ***PENTING***
-            Tandai hanya kata kunci penting (objek menarik, kata-kata teknis, kompleks, dan sulit dimengerti awam). 
+            Tandai hanya kata kunci penting seperti: objek menarik, kata-kata teknis, konstanta, kata kunci kompleks, persamaan, kata-kata asing, kutipan, kiasan, metafor. 
 
             Aturan ketat:
             1. Bungkus setiap kata kunci hanya sekali dengan tag berikut:
