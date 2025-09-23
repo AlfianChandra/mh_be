@@ -228,12 +228,6 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
             {
               type: "input_text",
               text:
-                "Berikut topik nya, silahkan pelajari topik ini sebagai data tambahan: " +
-                data.topic,
-            },
-            {
-              type: "input_text",
-              text:
                 "Definisikan kata kunci berikut. Cari dari sumber Wikipedia: " +
                 data.keyword +
                 ". Langsung berikan penjelasan tanpa mengulang pertanyaan.",
