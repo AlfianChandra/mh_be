@@ -211,7 +211,7 @@ async function getKeywords(openai, context, setting) {
         {
           role: "system",
           content: `
-          Tugasmu hanya menghasilkan top 18 daftar pertanyaan dari kata kunci teknis atau asing yang muncul dalam konteks.
+          Tugasmu hanya menghasilkan top 10 daftar pertanyaan dari kata kunci teknis atau asing yang muncul dalam konteks.
           Hasilkan pertanyaan berupa:
           -Pengujian Ide Menarik
           -Praktikal
@@ -231,7 +231,8 @@ async function getKeywords(openai, context, setting) {
           Jangan hasilkan pertanyaan yang jawabannya sudah jelas ada di konteks.
           Format output HARUS valid JSON array of strings.  
           Jangan tambahkan teks atau penjelasan lain di luar array.
-          Berikan emoji yang berkaitan dengan pertanyaan di awal kalimat di setiap pertanyaan. 
+          Berikan emoji yang berkaitan dengan pertanyaan di awal kalimat di setiap pertanyaan.
+          Masing-masing pertanyaan singkat, maksimal 7 kata. 
 
           Contoh format output:  
           ["Apa itu X?", "Definisi dari X?", "Penjelasan tentang X?", "Bagaimana cara kerja X?", "Contoh penerapan X?"]
