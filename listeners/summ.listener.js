@@ -247,9 +247,6 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
         tools: [
           {
             type: "web_search",
-            filters: {
-              allowed_domains: ["wikipedia.org"],
-            },
           },
         ],
         input,
