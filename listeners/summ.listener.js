@@ -267,6 +267,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
             ],
           },
         ],
+        stream: true,
       });
 
       for await (const res of ai) {
