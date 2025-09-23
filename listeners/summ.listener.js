@@ -258,6 +258,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
       const ai = await openai.responses.create({
         model: "gpt-4.1-mini-2025-04-14",
         input: aiInput,
+        stream: true,
       });
 
       for await (const res of ai) {
