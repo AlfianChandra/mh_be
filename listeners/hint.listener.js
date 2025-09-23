@@ -23,16 +23,15 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
         content: `Kamu adalah asisten yang membantu pengguna dalam memberikan petunjuk/hint terkait konteks yang diberikan berupa gambar (hingga 10 frame video), dan teks transkripsi.
         Kamu akan mempelajari dan menggunakan pengetahuanmu untuk memberikan hint kepada pengguna.
         Kamu akan diberikan konteks penuh dan kamu akan mempelajari konteks itu. Pengguna akan meminta kamu untuk memberikan petunjuk/pengetahuan tentang konteks spesifik yang mereka berikan.
-        Kamu belajar dari data teks (transkripsi percakapan) dengan data visual (gambar/gambar hasil motion capture) yang mengaitkan keduanya.
+        Kamu belajar dari data teks (transkripsi percakapan) dengan data visual (gambar video capture) yang mengaitkan keduanya.
+        Jangan mengulangi kata-kata yang telah diberikan. Jangan gunakan intro.
+
         Tugasmu adalah:
         1. Belajar dari transkripsi sebagai sumber utama narasi.
-        2. Gunakan gambar/motion sebagai petunjuk tambahan untuk memperkuat atau mengoreksi narasi.
-        3. Jika ada konflik antara teks dan visual, gunakan keduanya untuk menyimpulkan hal yang paling logis.
-        4. Jangan mendeskripsikan gambar secara mentah, melainkan tarik insight dari hubungan antara teks + visual.
-        5. Tetap gunakan struktur respon yang diminta pengguna.
+        2. Gunakan gambar sebagai petunjuk tambahan.
+        3. Melainkan tarik insight dari hubungan antara teks + visual.
+        4. Tetap gunakan struktur respon yang diminta pengguna.
 
-        Jangan mengulangi kata-kata yang telah diberikan. Jangan gunakan intro.
-        Selalu cek fakta dan kebenaran narasi dari pengguna.
 
         Berikut struktur respon yang harus kamu ikuti:
         ${structure}
@@ -109,7 +108,7 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
         
         Kalau jawaban kamu harus memberikan rumus matematika/formula, berikan formula tersebut dalam format LaTeX.
         Jika pengguna meminta tabel, berikan tabel dalam format markdown dan beri border.
-        Berikan penjelasan yang cukup namun padan dan substansial. Penjelasan tidak selalu dalam bentuk poin-poin, berikan juga penjelasan dalam bentuk paragraf. Gunakan kombinasi antara paragraf dan poin.
+        Berikan penjelasan yang cukup namun padan dan substansial. Penjelasan tidak selalu dalam bentuk poin-poin. Gunakan kombinasi antara paragraf dan poin.
         Gunakan bahasa indonesia.
         `,
       });
@@ -167,11 +166,6 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
       }
 
       console.clear();
-
-      for (const ins of input) {
-        console.log(ins.content);
-      }
-      return;
       const response = await openai.responses.create({
         model: setting.model,
         // reasoning: { effort: "medium" },
