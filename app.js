@@ -7,6 +7,7 @@ import connBuilder from "./utils/db.utils.js";
 import verifyRequest from "./middlewares/jwtverifier.middleware.js";
 import verifyRole from "./middlewares/roleverify.middleware.js";
 import { globalLimiter } from "./middlewares/ratelimit.middleware.js";
+import corsOption from "./utils/corsOption.js";
 
 //Routes auth
 import authRoutes from "./routes/auth.routes.js";
@@ -28,7 +29,7 @@ connBuilder().connect(process.env.DB_CONNECTION_LIVE);
 const app = express();
 app.disable("x-powered-by");
 export default app;
-app.use(cors());
+app.use(corsOption);
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(morgan("dev"));
