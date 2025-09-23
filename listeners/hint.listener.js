@@ -215,7 +215,18 @@ async function getKeywords(openai, context, setting) {
           role: "system",
           content: `
           Tugasmu hanya menghasilkan top 18 daftar pertanyaan dari kata kunci teknis atau asing yang muncul dalam konteks.
-          Hasilkan pertanyaan menarik, praktikal, perbandingan, simulasi perhitungan, simulasi perbandingan, simulasi skala, studi kasus, dan aplikasi nyata, pertanyaan analogis.
+          Hasilkan pertanyaan:
+          -Menarik
+          -Praktikal
+          -Perbandingan
+          -Simulasi perhitungan
+          -Simulasi perbandingan
+          -Simulasi skala
+          -Studi kasus
+          -Aplikasi nyata
+          -Estimasi
+          -Simulasi Absurd
+
           Urutkan dari yang paling relevan dan penting, hingga yang umum.
           Jangan hasilkan pertanyaan yang jawabannya sudah jelas ada di konteks.
           Format output HARUS valid JSON array of strings.  
