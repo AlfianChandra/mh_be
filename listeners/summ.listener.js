@@ -244,7 +244,14 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
 
       const response = await openai.responses.create({
         model: "gpt-4.1-mini-2025-04-14",
-        tools: [{ type: "web_search" }],
+        tools: [
+          {
+            type: "web_search",
+            filters: {
+              allowed_domains: ["wikipedia.org"],
+            },
+          },
+        ],
         input,
       });
 
