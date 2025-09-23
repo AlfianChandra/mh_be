@@ -179,7 +179,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
       let input = [
         {
           role: "system",
-          content: `Kamu adalah asisten yang bertugas untuk menjelaskan definisi suatu kata kunci sesuai dengan permintaan pengguna
+          content: `Kamu adalah asisten yang bertugas untuk menjelaskan definisi suatu kata kunci sesuai dengan permintaan pengguna. Jelaskan minimal 3 paragraf panjang
             ***PENTING***
             Tandai hanya kata kunci penting (objek menarik, kata-kata teknis, kompleks, dan sulit dimengerti awam). 
 
