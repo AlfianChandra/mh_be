@@ -214,7 +214,7 @@ async function getKeywords(openai, context, setting) {
         {
           role: "system",
           content: `
-          Tugasmu hanya menghasilkan top 10 daftar pertanyaan dari kata kunci teknis atau asing yang muncul dalam konteks.
+          Tugasmu hanya menghasilkan top 18 daftar pertanyaan dari kata kunci teknis atau asing yang muncul dalam konteks.
           Hasilkan pertanyaan menarik, praktikal, perbandingan, simulasi perhitungan, simulasi perbandingan, simulasi skala, studi kasus, dan aplikasi nyata, pertanyaan analogis.
           Urutkan dari yang paling relevan dan penting, hingga yang umum.
           Jangan hasilkan pertanyaan yang jawabannya sudah jelas ada di konteks.
