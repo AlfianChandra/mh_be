@@ -19,7 +19,7 @@ const maxTime = {
 const createLimiter = (name, max, windowMinutes, message) =>
   rateLimit({
     windowMs: windowMinutes * 60 * 1000,
-    max: devEnv ? 99999 : max,
+    max: devEnv ? 1000 : max,
     standardHeaders: true,
     legacyHeaders: false,
     message: { status: 429, message },
