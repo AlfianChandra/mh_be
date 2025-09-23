@@ -148,7 +148,8 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
             Jangan hasilkan pertanyaan yang jawabannya sudah jelas ada di konteks.
             Format output HARUS valid JSON array of strings.  
             Jangan tambahkan teks atau penjelasan lain di luar array.
-            Berikan emoji yang berkaitan dengan pertanyaan di awal kalimat di setiap pertanyaan. 
+            Berikan emoji yang berkaitan dengan pertanyaan di awal kalimat di setiap pertanyaan.
+            Masing-masing pertanyaan singkat, maksimal 5 kata.
 
             Contoh format output:  
             ["Apa itu X?", "Definisi dari X?", "Penjelasan tentang X?", "Bagaimana cara kerja X?", "Contoh penerapan X?"]
