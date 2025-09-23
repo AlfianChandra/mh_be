@@ -179,8 +179,19 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
       let input = [
         {
           role: "system",
-          content:
-            "Kamu adalah asisten yang bertugas untuk menjelaskan definisi suatu kata kunci sesuai dengan permintaan pengguna",
+          content: `Kamu adalah asisten yang bertugas untuk menjelaskan definisi suatu kata kunci sesuai dengan permintaan pengguna
+            ***PENTING***
+            Tandai hanya kata kunci penting (objek menarik, kata-kata teknis, kompleks, dan sulit dimengerti awam). 
+
+            Aturan ketat:
+            1. Bungkus setiap kata kunci hanya sekali dengan tag berikut:
+              <span class="keypoints">KATA KUNCI</span>
+            2. Dilarang membuat nested <span>.
+            3. Dilarang memodifikasi isi kata kunci dengan tambahan penjelasan di dalam tag.
+            4. Jika ada istilah teknis panjang (misalnya: "carbon fiber reinforced plastics"), tetap bungkus seluruh frasa itu dengan satu <span>.
+            5. Semua atribut dalam tag wajib pakai tanda kutip ganda ("), bukan kutip tunggal (‘ atau ’).
+            6. Output teks di luar kata kunci tetap normal, jangan diubah.
+            `,
         },
         {
           role: "user",
