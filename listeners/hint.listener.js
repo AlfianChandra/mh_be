@@ -227,6 +227,7 @@ async function getKeywords(openai, context, setting) {
           -Aplikasi nyata
           -Estimasi
           -Simulasi Absurd
+          -Skenario Lucu
           -Out-of-the Box Scenario
 
           Urutkan dari yang paling relevan dan penting, hingga yang umum.
