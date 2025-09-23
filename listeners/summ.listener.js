@@ -247,7 +247,33 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
       });
 
       const searchResult = response.output_text;
-      socket.emit("summarization:quick-search-internet", searchResult);
+      socket.emit("summarization:quick-search-internet", searchResult + "\n");
+
+      const ai = await openai.responses.create({
+        model: "gpt-4.1-mini-2025-04-14",
+        input: [
+          {
+            role: "system",
+            content:
+              "Kamu adalah asisten yang bertugas untuk menjelaskan relevansi hasil pencarian internet dengan konteks yang diberikan",
+          },
+          {
+            role: "user",
+            content: [
+              {
+                type: "input_text",
+                text: `Berikut konteksnya: ${data.topic}. Jelaskan relevansi hasil pencarian berikut dengan konteks yang diberikan: ${searchResult}`,
+              },
+            ],
+          },
+        ],
+      });
+
+      for await (const res of ai) {
+        if (res.delta !== undefined) {
+          socket.emit("summarization:quick-search-delta", res.delta);
+        }
+      }
     });
 
     socket.on("disconnect", () => {
