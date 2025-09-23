@@ -247,7 +247,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
       });
 
       const searchResult = response.output_text;
-      socket.emit("summarization:quick-search-internet", searchResult + "\n");
+      socket.emit("summarization:quick-search-internet", searchResult + "\n\n");
 
       const ai = await openai.responses.create({
         model: "gpt-4.1-mini-2025-04-14",
