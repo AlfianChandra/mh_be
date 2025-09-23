@@ -167,14 +167,10 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
       }
 
       console.clear();
-      console.log(setting);
-      console.log(input);
 
       for (const ins of input) {
         console.log(ins.content);
       }
-
-      console.log(input.length)
       return;
       const response = await openai.responses.create({
         model: setting.model,
