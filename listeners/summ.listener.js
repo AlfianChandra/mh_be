@@ -252,7 +252,7 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
       const aiInput = [
         {
           role: "system",
-          content: `Kamu adalah asisten yang bertugas untuk menjelaskan hasil pencarian web berikut:  ${searchResult}. Jelaskan secara langsung tanpa mengulang kalimat yang diminta`,
+          content: `Kamu adalah asisten yang bertugas untuk menulis ulang hasil pencarian web berikut:  ${searchResult}. Jelaskan secara langsung tanpa mengulang kalimat yang diminta`,
         },
       ];
       const ai = await openai.responses.create({
