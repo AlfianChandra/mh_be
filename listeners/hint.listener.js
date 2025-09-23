@@ -215,7 +215,7 @@ async function getKeywords(openai, context, setting) {
           role: "system",
           content: `
           Tugasmu hanya menghasilkan top 18 daftar pertanyaan dari kata kunci teknis atau asing yang muncul dalam konteks.
-          Hasilkan pertanyaan:
+          Hasilkan pertanyaan berupa:
           -Menarik
           -Praktikal
           -Perbandingan
