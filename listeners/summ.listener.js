@@ -255,14 +255,14 @@ registry.waitFor("summarizationns", { timeoutMs: 1000 }).then((io) => {
           {
             role: "system",
             content:
-              "Kamu adalah asisten yang bertugas untuk menjelaskan relevansi hasil pencarian internet dengan konteks yang diberikan",
+              "Kamu adalah asisten yang bertugas untuk menjelaskan kaitan hasil pencarian internet dengan konteks yang diberikan",
           },
           {
             role: "user",
             content: [
               {
                 type: "input_text",
-                text: `Berikut konteksnya: ${data.topic}. Jelaskan relevansi hasil pencarian berikut dengan konteks yang diberikan: ${searchResult}`,
+                text: `Berikut konteksnya: ${data.topic}. Jelaskan kaitan hasil pencarian berikut dengan konteks yang diberikan: ${searchResult}`,
               },
             ],
           },
