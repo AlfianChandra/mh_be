@@ -1,5 +1,6 @@
 import Meeting from "../models/meeting.model.js";
 import Hint from "../models/hint.model.js";
+import HintStructure from "../models/hintstructure.model.js";
 const meetingBuilder = () => {
   const createMeeting = async (req, res) => {
     try {
@@ -148,6 +149,27 @@ const meetingBuilder = () => {
     }
   };
 
+  const setMeetingStructure = async (req, res) => {
+    try {
+      const { id_structure, id_meeting } = req.body;
+      const meeting = await Meeting.findById(id_meeting);
+      if (!meeting) {
+        return res.status(404).json({ error: "Meeting not found" });
+      }
+      const structure = await HintStructure.findById(id_structure);
+      if (!structure) {
+        return res.status(404).json({ error: "Structure not found" });
+      }
+
+      meeting.setting.structure.id_structure = id_structure;
+      await meeting.save();
+      res.status(200).json({ message: "Structure updated successfully" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
   const updateSettingViewControl = async (req, res) => {
     try {
       const { id, viewControl } = req.body;
@@ -175,6 +197,7 @@ const meetingBuilder = () => {
     setMeetingSetting,
     updateSettingViewControl,
     getMeetingData,
+    setMeetingStructure,
   };
 };
 

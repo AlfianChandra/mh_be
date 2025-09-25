@@ -9,6 +9,7 @@ router.post("/meeting/setactive", meetingBuilder().setActiveMeeting);
 router.post("/meeting/delete", meetingBuilder().deleteMeeting);
 router.post("/meeting/getsetting", meetingBuilder().getMeetingSetting);
 router.post("/meeting/setsetting", meetingBuilder().setMeetingSetting);
+router.post("/meeting/update/structure", meetingBuilder().setMeetingStructure);
 router.post(
   "/meeting/update/viewcontrol",
   meetingBuilder().updateSettingViewControl

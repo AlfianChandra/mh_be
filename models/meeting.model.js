@@ -46,6 +46,14 @@ const meetingSchema = mongoose.Schema({
         required: false,
       },
     },
+    structure: {
+      id_structure: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "HintStructure",
+        required: false,
+        default: null,
+      },
+    },
   },
 });
 
