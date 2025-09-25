@@ -178,6 +178,8 @@ async function getOrCreateWs(socketId, lang = "id") {
   wsMap.set(socketId, ws);
   ws.setMaxListeners(50);
 
+  const engPrompt = "Translate to English. If there is a foreign language, translate to English. Use a funny and cool language. Do not repeat the prompt";
+  const indPrompt = "Terjemahkan ke Bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke Bahasa Indonesia. Gunakan bahasa yang kocak dan asik. Jangan mengulang prompt";
   // --- OPEN ---
   ws.on("open", () => {
     const sessionConfig = {
@@ -188,7 +190,7 @@ async function getOrCreateWs(socketId, lang = "id") {
         input_audio_format: "pcm16", // rekomendasi model STT
         input_audio_transcription: {
           model: "gpt-4o-transcribe",
-          prompt: `Terjemahkan ke ${langStr}. Kalo ada bahasa asing, terjemahin ke ${langStr}. Gunakan bahasa yang kocak dan asik. Jangan mengulang prompt`,
+          prompt: lang === "id" ? indPrompt : engPrompt,
           language: lang, // biar langsung diarahkan ke bahasa Indonesia
         },
         // Voice Activity Detection
