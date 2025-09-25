@@ -188,7 +188,7 @@ async function getOrCreateWs(socketId, lang = "id") {
         input_audio_format: "pcm16", // rekomendasi model STT
         input_audio_transcription: {
           model: "gpt-4o-transcribe",
-          prompt: `Terjemahkan ke ${langStr}. Kalo ada bahasa asing, terjemahin ke ${langStr}. Gunakan bahasa yang lucu dan asik. Jangan mengulang prompt`,
+          prompt: `Terjemahkan ke ${langStr}. Kalo ada bahasa asing, terjemahin ke ${langStr}. Gunakan bahasa yang kocak dan asik. Jangan mengulang prompt`,
           language: lang, // biar langsung diarahkan ke bahasa Indonesia
         },
         // Voice Activity Detection
