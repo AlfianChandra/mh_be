@@ -179,9 +179,9 @@ async function getOrCreateWs(socketId, lang = "id") {
   ws.setMaxListeners(50);
 
   const engPrompt =
-    "Translate to English. If there is a foreign language, translate to English. Use a funny and cool language. Do not repeat the prompt";
+    "Translate to English. If there is a foreign language, translate to English. Do not repeat the prompt";
   const indPrompt =
-    "Terjemahkan ke Bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke Bahasa Indonesia. Gunakan bahasa yang kocak dan asik. Jangan mengulang prompt";
+    "Terjemahkan ke Bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke Bahasa Indonesia. Jangan mengulang prompt";
   // --- OPEN ---
   ws.on("open", () => {
     const sessionConfig = {
