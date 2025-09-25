@@ -159,7 +159,7 @@ function flushAudioQueue(socketId) {
 async function getOrCreateWs(socketId, lang = "id") {
   let ws = wsMap.get(socketId);
   if (ws && ws.readyState === WebSocket.OPEN) return ws;
-
+  const langStr = lang === "id" ? "Bahasa Indonesia" : "English";
   const mode = await Mode.find({});
   const OPENAI_API_KEY =
     mode.length > 0
@@ -184,13 +184,11 @@ async function getOrCreateWs(socketId, lang = "id") {
       type: "session.update",
       session: {
         modalities: ["text"],
-        instructions:
-          "Terjemahkan semua input audio ke bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke bahasa indonesia. Gunakan bahasa yang lucu",
+        instructions: `Terjemahkan semua input audio ke ${langStr}`,
         input_audio_format: "pcm16", // rekomendasi model STT
         input_audio_transcription: {
           model: "gpt-4o-transcribe",
-          prompt:
-            "Terjemahkan ke bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke bahasa indonesia. Gunakan bahasa yang lucu",
+          prompt: `Terjemahkan ke ${langStr}. Kalo ada bahasa asing, terjemahin ke ${langStr}. Gunakan bahasa yang lucu`,
           language: lang, // biar langsung diarahkan ke bahasa Indonesia
         },
         // Voice Activity Detection
