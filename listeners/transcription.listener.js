@@ -189,6 +189,8 @@ async function getOrCreateWs(socketId) {
         input_audio_format: "pcm16", // rekomendasi model STT
         input_audio_transcription: {
           model: "gpt-4o-mini-transcribe",
+          prompt:
+            "Terjemahkan ke bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke bahasa indonesia",
           language: "id", // biar langsung diarahkan ke bahasa Indonesia
         },
         // Voice Activity Detection
