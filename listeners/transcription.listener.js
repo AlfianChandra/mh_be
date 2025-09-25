@@ -188,7 +188,7 @@ async function getOrCreateWs(socketId, lang = "id") {
       type: "session.update",
       session: {
         modalities: ["text"],
-        instructions: lang === id ? indPrompt : engPrompt,
+        instructions: lang === "id" ? indPrompt : engPrompt,
         input_audio_format: "pcm16", // rekomendasi model STT
         input_audio_transcription: {
           model: "gpt-4o-transcribe",
