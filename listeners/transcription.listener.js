@@ -156,7 +156,7 @@ function flushAudioQueue(socketId) {
 // OpenAI Realtime WS Factory
 // =======================
 
-async function getOrCreateWs(socketId) {
+async function getOrCreateWs(socketId, lang = "id") {
   let ws = wsMap.get(socketId);
   if (ws && ws.readyState === WebSocket.OPEN) return ws;
 
@@ -191,7 +191,7 @@ async function getOrCreateWs(socketId) {
           model: "gpt-4o-transcribe",
           prompt:
             "Terjemahkan ke bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke bahasa indonesia. Gunakan bahasa yang lucu",
-          language: "id", // biar langsung diarahkan ke bahasa Indonesia
+          language: lang, // biar langsung diarahkan ke bahasa Indonesia
         },
         // Voice Activity Detection
         turn_detection: {
@@ -304,13 +304,14 @@ registry.waitFor("transcriptionns", { timeoutMs: 5000 }).then((io) => {
 
   io.on("connection", async (socket) => {
     console.log(`[TRANSCRIPTION] client connected: ${socket.id}`);
+    const language = socket.handshake.auth.language || "id";
 
     audioStates.set(socket.id, { socket, ready: false, targetResponse: null });
     initAudioQueue(socket.id);
 
     // pastikan WS realtime siap
     try {
-      await getOrCreateWs(socket.id);
+      await getOrCreateWs(socket.id, language);
       audioStates.get(socket.id).ready = true;
       socket.emit("tcript:status", { status: "ready" });
     } catch (e) {
