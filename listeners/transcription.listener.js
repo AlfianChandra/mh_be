@@ -198,7 +198,7 @@ async function getOrCreateWs(socketId, lang = "id") {
         // Voice Activity Detection
         turn_detection: {
           type: "server_vad",
-          threshold: 1,
+          threshold: 0.9,
           prefix_padding_ms: 400,
           silence_duration_ms: 150,
           create_response: false,
