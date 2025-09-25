@@ -149,6 +149,22 @@ const meetingBuilder = () => {
     }
   };
 
+  const setMeetingLanguages = async (req, res) => {
+    try {
+      const { id, languages } = req.body;
+      const meeting = await Meeting.findById(id);
+      if (!meeting) {
+        return res.status(404).json({ error: "Meeting not found" });
+      }
+      meeting.setting.languages = languages;
+      await meeting.save();
+      res.status(200).json({ message: "Languages updated successfully" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
   const setMeetingStructure = async (req, res) => {
     try {
       const { id_structure, id_meeting } = req.body;
@@ -198,6 +214,7 @@ const meetingBuilder = () => {
     updateSettingViewControl,
     getMeetingData,
     setMeetingStructure,
+    setMeetingLanguages,
   };
 };
 

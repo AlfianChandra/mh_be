@@ -54,6 +54,18 @@ const meetingSchema = mongoose.Schema({
         default: null,
       },
     },
+    languages: {
+      transcription: {
+        type: String,
+        default: "id",
+        required: false,
+      },
+      hint: {
+        type: String,
+        default: "id",
+        required: false,
+      },
+    },
   },
 });
 
