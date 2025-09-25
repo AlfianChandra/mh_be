@@ -191,7 +191,7 @@ async function getOrCreateWs(socketId, lang = "id") {
         instructions: lang === "id" ? indPrompt : engPrompt,
         input_audio_format: "pcm16", // rekomendasi model STT
         input_audio_transcription: {
-          model: "gpt-4o-transcribe",
+          model: "whisper-1",
           prompt: lang === "id" ? indPrompt : engPrompt,
           language: lang, // biar langsung diarahkan ke bahasa Indonesia
         },
