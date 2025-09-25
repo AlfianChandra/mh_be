@@ -190,7 +190,7 @@ async function getOrCreateWs(socketId) {
         input_audio_transcription: {
           model: "gpt-4o-transcribe",
           prompt:
-            "Terjemahkan ke bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke bahasa indonesia",
+            "Terjemahkan ke bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke bahasa indonesia. Gunakan bahasa yang lucu",
           language: "id", // biar langsung diarahkan ke bahasa Indonesia
         },
         // Voice Activity Detection
