@@ -185,7 +185,7 @@ async function getOrCreateWs(socketId) {
       session: {
         modalities: ["text"],
         instructions:
-          "Terjemahkan semua input audio ke bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke bahasa indonesia",
+          "Terjemahkan semua input audio ke bahasa Indonesia. Kalo ada bahasa asing, terjemahin ke bahasa indonesia. Gunakan bahasa yang lucu",
         input_audio_format: "pcm16", // rekomendasi model STT
         input_audio_transcription: {
           model: "gpt-4o-transcribe",
