@@ -66,7 +66,7 @@ function clearPing(socketId) {
 // Utils: reconnect logic
 // =======================
 
-function scheduleReconnect(socketId) {
+function scheduleReconnect(socketId, lang = "id") {
   // Kalau client (Socket.IO) sudah putus, gak perlu reconnect
   if (!audioStates.has(socketId)) return;
 
@@ -83,7 +83,7 @@ function scheduleReconnect(socketId) {
       console.log(
         `[OpenAI WS] reconnect attempt ${attempt} for ${socketId}...`
       );
-      await getOrCreateWs(socketId); // tunggu sampai 'open'
+      await getOrCreateWs(socketId, lang); // tunggu sampai 'open'
       reconnectAttempts.set(socketId, 0);
       flushAudioQueue(socketId);
 
@@ -250,7 +250,7 @@ async function getOrCreateWs(socketId, lang = "id") {
     console.log(`[OpenAI WS] closed for ${socketId} (code=${code})`);
     clearPing(socketId);
     wsMap.delete(socketId);
-    scheduleReconnect(socketId);
+    scheduleReconnect(socketId, lang);
   });
 
   // Tunggu siap (sukses open atau error)
@@ -303,7 +303,7 @@ registry.waitFor("transcriptionns", { timeoutMs: 5000 }).then((io) => {
   io.on("connection", async (socket) => {
     console.log(`[TRANSCRIPTION] client connected: ${socket.id}`);
     const language = socket.handshake.auth.language || "id";
-
+    console.log(`[TRANSCRIPTION] language for ${socket.id}: ${language}`);
     audioStates.set(socket.id, { socket, ready: false, targetResponse: null });
     initAudioQueue(socket.id);
 
