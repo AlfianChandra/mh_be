@@ -38,6 +38,11 @@ router.post(
   hintControllerBuilder().updateStructures
 );
 router.post(
+  "/hints/structure/reorder",
+  globalLimiter,
+  hintControllerBuilder().updateStructureOrder
+);
+router.post(
   "/hints/structure/delete",
   globalLimiter,
   hintControllerBuilder().deleteStructures
@@ -48,9 +53,5 @@ router.post(
   hintControllerBuilder().updateHintContent
 );
 
-router.post(
-  "/hints/update",
-  globalLimiter,
-  hintControllerBuilder().updateHint
-);
+router.post("/hints/update", globalLimiter, hintControllerBuilder().updateHint);
 export default router;

@@ -8,6 +8,11 @@ const mongooseSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  order: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
   locked: {
     type: Boolean,
     required: false,

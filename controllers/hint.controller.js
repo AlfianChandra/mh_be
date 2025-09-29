@@ -176,7 +176,8 @@ const hintControllerBuilder = () => {
 
   const getStructures = async (req, res) => {
     try {
-      const structures = await HintStructure.find();
+      //Order by 'order' field
+      const structures = await HintStructure.find().sort({ order: 1 });
       return res.status(200).json({ payload: structures });
     } catch (err) {
       console.log(err);
@@ -194,6 +195,26 @@ const hintControllerBuilder = () => {
       );
       return res.status(200).json({
         message: "Structure updated successfully",
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+
+  const updateStructureOrder = async (req, res) => {
+    try {
+      const { _id, ...rest } = req.body;
+      const updateBulk = Object.keys(rest).map((key) => ({
+        updateOne: {
+          filter: { _id: key },
+          update: { order: rest[key] },
+        },
+      }));
+      await HintStructure.bulkWrite(updateBulk);
+
+      return res.status(200).json({
+        message: "Structure order updated successfully",
       });
     } catch (err) {
       console.log(err);
@@ -242,6 +263,7 @@ const hintControllerBuilder = () => {
     deleteStructures,
     updateHintContent,
     updateHint,
+    updateStructureOrder,
   };
 };
 
