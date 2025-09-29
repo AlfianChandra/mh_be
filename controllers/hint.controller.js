@@ -60,6 +60,22 @@ const hintControllerBuilder = () => {
     }
   };
 
+  const updateHint = async (req, res) => {
+    try {
+      const { id, ...filters } = req.body;
+      const hint = await Hint.findByIdAndUpdate(id, filters, { new: true });
+      if (!hint) {
+        return res.status(404).json({ error: "Hint not found" });
+      }
+      return res
+        .status(200)
+        .json({ message: "Hint updated successfully", payload: hint });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+
   const saveMotionHint = async (req, res) => {
     try {
       const {
@@ -225,6 +241,7 @@ const hintControllerBuilder = () => {
     updateStructures,
     deleteStructures,
     updateHintContent,
+    updateHint,
   };
 };
 

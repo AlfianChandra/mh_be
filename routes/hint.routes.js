@@ -47,4 +47,10 @@ router.post(
   globalLimiter,
   hintControllerBuilder().updateHintContent
 );
+
+router.post(
+  "/hints/update",
+  globalLimiter,
+  hintControllerBuilder().updateHint
+);
 export default router;
