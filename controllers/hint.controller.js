@@ -204,7 +204,7 @@ const hintControllerBuilder = () => {
 
   const updateStructureOrder = async (req, res) => {
     try {
-      const { _id, ...rest } = req.body;
+      const { _id, ...rest } = req.body.structures;
       const updateBulk = Object.keys(rest).map((key) => ({
         updateOne: {
           filter: { _id: key },
