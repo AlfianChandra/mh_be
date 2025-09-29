@@ -50,6 +50,11 @@ const hintSchema = mongoose.Schema({
     required: false,
     default: [],
   },
+  continous: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 
 export const Hint = mongoose.model("Hint", hintSchema);
