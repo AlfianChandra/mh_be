@@ -204,15 +204,14 @@ const hintControllerBuilder = () => {
 
   const updateStructureOrder = async (req, res) => {
     try {
-      const { _id, ...rest } = req.body.structures;
-      const updateBulk = Object.keys(rest).map((key) => ({
+      const structures = req.body.structures;
+      const updateBulk = structures.map((item, index) => ({
         updateOne: {
-          filter: { _id: key },
-          update: { order: rest[key] },
+          filter: { _id: item._id },
+          update: { order: index + 1 },
         },
       }));
       await HintStructure.bulkWrite(updateBulk);
-
       return res.status(200).json({
         message: "Structure order updated successfully",
       });
