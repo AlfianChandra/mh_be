@@ -230,7 +230,7 @@ function cosineSimilarity(vecA, vecB) {
 
 const searchRelevantChunks = async (idMeeting, queryEmbedding, topN = 5) => {
   const allChunks = await FileChunk.find({ id_meeting: idMeeting });
-
+  console.log(allChunks.length);
   const scored = allChunks.map((doc) => ({
     id_file: doc.id_file,
     chunk: doc.chunk,
