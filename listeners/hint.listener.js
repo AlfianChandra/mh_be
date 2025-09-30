@@ -124,7 +124,7 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
         const results = await searchRelevantChunks(
           meeting._id.toString(),
           userVector,
-          5
+          1
         );
         results.forEach((r) => console.log(r.score, r.chunk.substring(0, 100)));
         return;
