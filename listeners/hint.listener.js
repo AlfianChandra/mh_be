@@ -1,4 +1,7 @@
 import registry from "../utils/serviceregistry.utils.js";
+import Meeting from "../models/meeting.model.js";
+import Files from "../models/files.model.js";
+import FileChunk from "../models/fileChunk.model.js";
 import { useSocketAuth } from "../middlewares/authverifier.socket.middleware.js";
 
 registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
@@ -15,6 +18,8 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
       const hintMedia = data.hint_media; //base64 image
       const structure = data.response_structure;
       const motion = data.motion || [];
+      const useFiles = data.use_files || false;
+      const idMeeting = data.id_meeting;
 
       //Forge the input
       let input = [];
@@ -113,10 +118,22 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
         `,
       });
 
+      if (useFiles) {
+        const meeting = await Meeting.findById(idMeeting);
+        const userVector = await getEmbedding(prompt);
+        const results = await searchRelevantChunks(
+          meeting._id.toString(),
+          userVector,
+          5
+        );
+        results.forEach((r) => console.log(r.score, r.chunk.substring(0, 100)));
+        return;
+      }
+
       if (hintType === "text") {
         input.push({
           role: "system",
-          content: `Topik ini berujudul ${data.context_title}. Berikut adalah konteks penuh dari sesi pembahasan saat ini: ${transcription}. Selalu berikan referensi dari sumber manapun yang kamu tau (buku, jurnal, internet). Buat dalam bentuk poin-poin`,
+          content: `Topik ini berujudul ${data.context_title}. Berikut adalah konteks penuh dari sesi pembahasan saat ini: ${transcription}.`,
         });
 
         input.push({
@@ -154,7 +171,7 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
       } else {
         input.push({
           role: "system",
-          content: `Konteks ini berujudul ${data.context_title}. Berikut adalah konteks penuh dari sesi pembahasan saat ini: ${transcription}. Selalu berikan referensi dari sumber manapun yang kamu tau (buku, jurnal, internet). Buat dalam bentuk poin-poin`,
+          content: `Konteks ini berujudul ${data.context_title}. Berikut adalah konteks penuh dari sesi pembahasan saat ini: ${transcription}`,
         });
         input.push({
           role: "user",
@@ -203,6 +220,38 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
     });
   });
 });
+
+const searchRelevantChunks = async (idMeeting, queryEmbedding, topN = 5) => {
+  const allChunks = await FileChunk.find({ id_meeting: idMeeting });
+
+  const scored = allChunks.map((doc) => ({
+    id_file: doc.id_file,
+    chunk: doc.chunk,
+    score: cosineSimilarity(queryEmbedding, doc.vector),
+  }));
+
+  // urutin descending score
+  return scored.sort((a, b) => b.score - a.score).slice(0, topN);
+};
+
+const getEmbedding = (text) => {
+  return new Promise(async (res, rej) => {
+    try {
+      const openai = await getOpenAIInstance();
+      openai.embeddings
+        .create({
+          model: "text-embedding-3-small",
+          input: text,
+          encoding_format: "float",
+        })
+        .then((result) => {
+          res(result.data[0].embedding);
+        });
+    } catch (err) {
+      rej(err);
+    }
+  });
+};
 
 async function getKeywords(openai, context, setting) {
   return new Promise(async (res, rej) => {

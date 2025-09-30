@@ -284,6 +284,7 @@ const meetingBuilder = () => {
           const vector = await getEmbedding(chunk);
           const newChunk = new FileChunk({
             id_file: fileId,
+            id_meeting,
             chunk,
             vector,
           });

@@ -5,6 +5,11 @@ const chunkSchema = mongoose.Schema({
     required: true,
     ref: "File",
   },
+  id_meeting: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Meeting",
+  },
   chunk: {
     type: String,
     required: true,
