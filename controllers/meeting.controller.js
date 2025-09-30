@@ -279,6 +279,19 @@ const meetingBuilder = () => {
     }
   };
 
+  const getFiles = async (req, res) => {
+    try {
+      const { id_meeting } = req.body;
+      const files = await Files.find({ id_meeting });
+      return res.status(200).json({
+        message: "ok",
+        payload: files,
+      });
+    } catch (err) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
   return {
     createMeeting,
     getMeeting,
@@ -292,6 +305,7 @@ const meetingBuilder = () => {
     setMeetingStructure,
     setMeetingLanguages,
     uploadFiles,
+    getFiles,
   };
 };
 

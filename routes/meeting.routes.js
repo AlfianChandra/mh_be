@@ -16,4 +16,5 @@ router.post(
   meetingBuilder().updateSettingViewControl
 );
 router.post("/meeting/files/upload", meetingBuilder().uploadFiles);
+router.post("/meeting/files/get", meetingBuilder().getFiles);
 export default router;
