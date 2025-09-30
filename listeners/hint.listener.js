@@ -126,13 +126,21 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
           userVector,
           5
         );
-        results.forEach((r) => console.log(r.score, r.chunk));
-        return;
+        // results.forEach((r) => console.log(r.score, r.chunk));
+        let doctext =
+          "Ini adalah beberapa dokumen pengguna, gunakan sebagai konteks:\n\n";
+        for (const r of results) {
+          doctext += r.chunk + "\n\n";
+        }
+        input.push({
+          role: "user",
+          content: doctext,
+        });
       }
 
       if (hintType === "text") {
         input.push({
-          role: "system",
+          role: "user",
           content: `Topik ini berujudul ${data.context_title}. Berikut adalah konteks penuh dari sesi pembahasan saat ini: ${transcription}.`,
         });
 
