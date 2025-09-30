@@ -126,7 +126,7 @@ registry.waitFor("hintns", { timeoutMs: 1000 }).then((io) => {
           userVector,
           5
         );
-        results.forEach((r) => console.log(r.score, r.chunk.substring(0, 500)));
+        results.forEach((r) => console.log(r.score, r.chunk));
         return;
       }
 
