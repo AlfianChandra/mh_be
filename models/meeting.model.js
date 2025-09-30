@@ -45,13 +45,7 @@ const meetingSchema = mongoose.Schema({
         default: [33.333333333, 33.333333333, 33.333333333],
         required: false,
       },
-      useFiles: {
-        type: Boolean,
-        default: false,
-        required: false,
-      },
     },
-
     structure: {
       id_structure: {
         type: mongoose.Schema.Types.ObjectId,
@@ -71,6 +65,11 @@ const meetingSchema = mongoose.Schema({
         default: "id",
         required: false,
       },
+    },
+    useFiles: {
+      type: Boolean,
+      default: false,
+      required: false,
     },
   },
 });
