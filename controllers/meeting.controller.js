@@ -1,6 +1,14 @@
+import dotenv from "dotenv";
+dotenv.config({ silent: true });
 import Meeting from "../models/meeting.model.js";
 import Hint from "../models/hint.model.js";
 import HintStructure from "../models/hintstructure.model.js";
+import pdf from "pdf-parse";
+import fs from "fs";
+import Files from "../models/files.model.js";
+import OpenAI from "openai";
+import FileChunk from "../models/fileChunk.model.js";
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY_MODE_PROD });
 const meetingBuilder = () => {
   const createMeeting = async (req, res) => {
     try {
@@ -203,6 +211,75 @@ const meetingBuilder = () => {
     }
   };
 
+  //Chunking function
+  function chunkText(text, size = 500) {
+    const words = text.split(" ");
+    let chunks = [];
+    for (let i = 0; i < words.length; i += size) {
+      chunks.push(words.slice(i, i + size).join(" "));
+    }
+    return chunks;
+  }
+
+  const getEmbedding = async (text) => {
+    return new Promise((res, rej) => {
+      try {
+        openai.embeddings
+          .create({
+            model: "text-embedding-3-small",
+            input: text,
+            encoding_format: "float",
+          })
+          .then((result) => {
+            res(result.data[0].embedding);
+          });
+      } catch (err) {
+        rej(err);
+      }
+    });
+  };
+
+  const uploadFiles = async (req, res) => {
+    try {
+      const { id_meeting, files } = req.body;
+      const meeting = await Meeting.findById(id_meeting);
+      if (!meeting) {
+        return res.status(404).json({ error: "Meeting not found" });
+      }
+
+      for (const file of files) {
+        const randChar = Math.random().toString(36).substring(2, 15);
+        const buffer = Buffer.from(file.encoded, "base64");
+        let data = "";
+        if (file.filetype === "pdf") {
+          data = await pdf(buffer);
+        }
+
+        const newFile = await Files.create({
+          id_meeting,
+          filename: `${randChar}_${file.filename}`,
+          filetype: file.filetype,
+        });
+        newFile.save();
+        const fileId = newFile._id;
+        const textChunks = chunkText(data.text, 500);
+        for (const chunk of textChunks) {
+          const vector = await getEmbedding(chunk);
+          const newChunk = new FileChunk({
+            id_file: fileId,
+            chunk,
+            vector,
+          });
+          await newChunk.save();
+        }
+      }
+
+      res.status(200).json({ message: "Files uploaded successfully" });
+    } catch (err) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
   return {
     createMeeting,
     getMeeting,
@@ -215,6 +292,7 @@ const meetingBuilder = () => {
     getMeetingData,
     setMeetingStructure,
     setMeetingLanguages,
+    uploadFiles,
   };
 };
 
