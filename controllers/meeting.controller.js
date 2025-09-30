@@ -246,7 +246,6 @@ const meetingBuilder = () => {
       if (!meeting) {
         return res.status(404).json({ error: "Meeting not found" });
       }
-
       for (const file of files) {
         const randChar = Math.random().toString(36).substring(2, 15);
         const buffer = Buffer.from(file.encoded, "base64");
