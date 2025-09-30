@@ -17,4 +17,5 @@ router.post(
 );
 router.post("/meeting/files/upload", meetingBuilder().uploadFiles);
 router.post("/meeting/files/get", meetingBuilder().getFiles);
+router.post("/meeting/files/delete", meetingBuilder().deleteFiles);
 export default router;

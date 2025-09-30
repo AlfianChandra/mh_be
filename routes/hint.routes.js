@@ -25,31 +25,37 @@ router.post(
 router.post(
   "/hints/structure/create",
   globalLimiter,
+  verifyRequest,
   hintControllerBuilder().createStructure
 );
 router.get(
   "/hints/structure/get",
   globalLimiter,
+  verifyRequest,
   hintControllerBuilder().getStructures
 );
 router.post(
   "/hints/structure/update",
   globalLimiter,
+  verifyRequest,
   hintControllerBuilder().updateStructures
 );
 router.post(
   "/hints/structure/reorder",
   globalLimiter,
+  verifyRequest,
   hintControllerBuilder().updateStructureOrder
 );
 router.post(
   "/hints/structure/delete",
   globalLimiter,
+  verifyRequest,
   hintControllerBuilder().deleteStructures
 );
 router.post(
   "/hints/update_content",
   globalLimiter,
+  verifyRequest,
   hintControllerBuilder().updateHintContent
 );
 

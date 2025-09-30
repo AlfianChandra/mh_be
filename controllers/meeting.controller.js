@@ -292,6 +292,21 @@ const meetingBuilder = () => {
     }
   };
 
+  const deleteFiles = async (req, res) => {
+    try {
+      const { id } = req.body;
+      //delete chunks
+      await FileChunk.deleteMany({ id_file: id });
+      //delete file
+      await Files.findByIdAndDelete(id);
+      res
+        .status(200)
+        .json({ message: "File and associated chunks deleted successfully" });
+    } catch (err) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
   return {
     createMeeting,
     getMeeting,
@@ -306,6 +321,7 @@ const meetingBuilder = () => {
     setMeetingLanguages,
     uploadFiles,
     getFiles,
+    deleteFiles
   };
 };
 
