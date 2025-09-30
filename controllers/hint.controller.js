@@ -63,6 +63,7 @@ const hintControllerBuilder = () => {
   const updateHint = async (req, res) => {
     try {
       const { id, ...filters } = req.body;
+      delete filters.context;
       const hint = await Hint.findByIdAndUpdate(id, filters, { new: true });
       if (!hint) {
         return res.status(404).json({ error: "Hint not found" });
