@@ -146,7 +146,11 @@ const hintControllerBuilder = () => {
       const hint = await Hint.findById(id);
       console.log(hint);
       if (hint.context_image != null) {
-        await fileUploaderInstance.deleteImage("public/" + hint.context_image);
+        if (hint.context_image.length > 0) {
+          await fileUploaderInstance.deleteImage(
+            "public/" + hint.context_image
+          );
+        }
       }
       await Hint.findByIdAndDelete(id);
       return res.status(200).json({ message: "Hint deleted successfully" });
