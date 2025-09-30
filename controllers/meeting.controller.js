@@ -230,7 +230,7 @@ const meetingBuilder = () => {
   };
 
   //Chunking function
-  function chunkText(text, size = 500) {
+  function chunkText(text, size = 700) {
     const words = text.split(" ");
     let chunks = [];
     for (let i = 0; i < words.length; i += size) {
@@ -279,7 +279,7 @@ const meetingBuilder = () => {
         });
         newFile.save();
         const fileId = newFile._id;
-        const textChunks = chunkText(data.text, 500);
+        const textChunks = chunkText(data.text, 700);
         for (const chunk of textChunks) {
           const vector = await getEmbedding(chunk);
           const newChunk = new FileChunk({
